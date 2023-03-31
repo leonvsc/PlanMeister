@@ -6,8 +6,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<PlanMeisterDbContext>(opt =>
-    opt.UseInMemoryDatabase("PlanmeisterApi"));
+builder.Services.AddDbContext<PlanMeisterDbContext>((optionsBuilder) =>
+{
+    var connectionString = Environment.GetEnvironmentVariable("DB_Connection");
+    optionsBuilder.UseSqlServer(connectionString);
+});
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
