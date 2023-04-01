@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /app
 
 # Copy the csproj files
-COPY *.csproj ./
+COPY *.csproj .
 
 # Install the packages
 RUN dotnet restore
@@ -12,17 +12,21 @@ RUN dotnet restore
 COPY . .
 
 # Build the application
-RUN dotnet publish -c Debug -o out
+RUN dotnet publish -c Release -o .
 
-# Use the official .NET Core runtime image as the base image
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
-WORKDIR /app
-
-# Copy the published application into the container
-COPY --from=build /app/out .
+# Install the dotnet-ef tool
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="${PATH}:/root/.dotnet/tools"
 
 # Expose port 80 to the outside world
 EXPOSE 80
+
+# Add the migration script to the container
+COPY ./run-migration.sh .
+RUN chmod +x ./run-migration.sh
+
+# Run migration script
+CMD /bin/bash ./run-migration.sh
 
 # Run the application
 ENTRYPOINT ["dotnet", "PlanMeisterApi.dll"]
