@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PlanMeisterApi.Models;
+using PlanMeisterApi.Repositories;
+using PlanMeisterApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,8 @@ builder.Services.AddDbContext<PlanMeisterDbContext>((optionsBuilder) =>
     var connectionString = Environment.GetEnvironmentVariable("DB_Connection");
     optionsBuilder.UseSqlServer(connectionString);
 });
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
