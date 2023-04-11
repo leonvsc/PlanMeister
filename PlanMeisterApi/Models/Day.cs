@@ -1,10 +1,10 @@
 namespace PlanMeisterApi.Models;
 
-public class Employee
+public class Day
 {
-    public int EmployeeId { get; set; }
+    public int DayId { get; set; }
     public string Name { get; set; }
-    
+
     public ICollection<Appointment> Appointments { get; set; }
-    public ICollection<Request> Requests { get; set; }
+    public ICollection<Schedule> Schedules { get; set; }
 }
