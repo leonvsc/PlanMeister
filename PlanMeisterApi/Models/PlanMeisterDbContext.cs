@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using PlanMeisterApi.Enum;
 
 namespace PlanMeisterApi.Models;
 
@@ -45,6 +47,11 @@ public class PlanMeisterDbContext : DbContext
             .HasOne(s => s.Day)
             .WithMany(d => d.Schedules)
             .HasForeignKey(s => s.DayId);
+
+        // Convert Enum to String
+        modelBuilder.Entity<Request>()
+            .Property(d => d.RequestType)
+            .HasConversion(new EnumToStringConverter<RequestType>());
 
         modelBuilder.Entity<Employee>().HasData(SeedHelper.GetEmployeeSeeds());
         modelBuilder.Entity<Day>().HasData(SeedHelper.GetDaySeeds());
