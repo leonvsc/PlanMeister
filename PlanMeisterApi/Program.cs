@@ -21,14 +21,14 @@ builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 
-builder.Services.AddScoped<IDayRepository, DayRepository>();
-builder.Services.AddScoped<IDayService, DayService>();
+builder.Services.AddScoped<IDayScheduleRepository, DayScheduleRepository>();
+builder.Services.AddScoped<IDayScheduleService, DayScheduleService>();
 
 builder.Services.AddScoped<IRequestRepository, RequestRepository>();
 builder.Services.AddScoped<IRequestService, RequestService>();
 
-builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
-builder.Services.AddScoped<IScheduleService, ScheduleService>();
+builder.Services.AddScoped<IWeekScheduleRepository, WeekScheduleRepository>();
+builder.Services.AddScoped<IWeekScheduleService, WeekScheduleService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

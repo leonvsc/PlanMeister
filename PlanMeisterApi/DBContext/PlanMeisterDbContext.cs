@@ -13,19 +13,19 @@ public class PlanMeisterDbContext : DbContext
 
     public DbSet<Employee> Employees { get; set; }
     public DbSet<Appointment> Appointments { get; set; }
-    public DbSet<Day> Days { get; set; }
+    public DbSet<DaySchedule> DaySchedules { get; set; }
     public DbSet<Request> Requests { get; set; }
-    public DbSet<Schedule> Schedules { get; set; }
+    public DbSet<WeekSchedule> WeekSchedules { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         
-        // Configure the relationship between Appointment and Day
+        // Configure the relationship between Appointment and DaySchedule
         modelBuilder.Entity<Appointment>()
-            .HasOne(a => a.Day)
+            .HasOne(a => a.DaySchedule)
             .WithMany(d => d.Appointments)
-            .HasForeignKey(a => a.DayId);
+            .HasForeignKey(a => a.DayScheduleId);
 
         // Configure the relationship between Appointment and Employee
         modelBuilder.Entity<Appointment>()
@@ -42,20 +42,20 @@ public class PlanMeisterDbContext : DbContext
             .WithOne(r => r.Employee)
             .HasForeignKey(r => r.EmployeeId);
         
-        // Configure the relationship between Schedule and Day
-        modelBuilder.Entity<Schedule>()
-            .HasOne(s => s.Day)
-            .WithMany(d => d.Schedules)
-            .HasForeignKey(s => s.DayId);
-
+        // Configure the relationship between DaySchedule and WeekSchedule
+        modelBuilder.Entity<DaySchedule>()
+            .HasOne(w => w.WeekSchedule)
+            .WithMany(d => d.DaySchedules)
+            .HasForeignKey(d => d.WeekScheduleId);
+        
         // Convert Enum to String
         modelBuilder.Entity<Request>()
             .Property(d => d.RequestType)
             .HasConversion(new EnumToStringConverter<RequestType>());
 
         modelBuilder.Entity<Employee>().HasData(SeedHelper.GetEmployeeSeeds());
-        modelBuilder.Entity<Day>().HasData(SeedHelper.GetDaySeeds());
+        modelBuilder.Entity<DaySchedule>().HasData(SeedHelper.GetDaySeeds());
         modelBuilder.Entity<Request>().HasData(SeedHelper.GetRequestSeeds());
-        modelBuilder.Entity<Schedule>().HasData(SeedHelper.GetScheduleSeeds());
+        modelBuilder.Entity<WeekSchedule>().HasData(SeedHelper.GetScheduleSeeds());
     }
 }

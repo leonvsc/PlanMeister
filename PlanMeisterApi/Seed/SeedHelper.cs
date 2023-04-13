@@ -1,4 +1,5 @@
 using PlanMeisterApi.Enum;
+using DayOfWeek = System.DayOfWeek;
 
 namespace PlanMeisterApi.Models;
 
@@ -37,42 +38,39 @@ public class SeedHelper
             new Appointment()
             {
                 AppointmentId = 1,
-                Name = "Ziggo Playout",
+                Title = "Ziggo Playout",
                 Description = "Ziggo Playout Ochtenddienst",
-                Type = "Ziggo Playout",
-                Task = "Ziggo Playout",
+                Type = AppointmentType.Ochtenddienst,
                 Date = new DateTime(2023, 4, 1),
                 Time = new TimeSpan(7, 45, 0),
                 Billable = true,
-                DayId = 1,
+                DayScheduleId = 1,
                 EmployeeId = 1,
             },
 
             new Appointment()
             {
                 AppointmentId = 2,
-                Name = "Ziggo Playout",
+                Title = "Ziggo Playout",
                 Description = "Ziggo Playout Avonddienst",
-                Type = "Ziggo Playout",
-                Task = "Ziggo Playout",
+                Type = AppointmentType.Avonddienst,
                 Date = new DateTime(2023, 4, 1),
                 Time = new TimeSpan(15, 45, 0),
                 Billable = true,
-                DayId = 2,
+                DayScheduleId = 2,
                 EmployeeId = 2,
             },
 
             new Appointment()
             {
                 AppointmentId = 3,
-                Name = "Ziggo Playout",
+                Title = "Ziggo Playout",
                 Description = "Ziggo Playout Nachtdienst",
-                Type = "Ziggo Playout",
-                Task = "Ziggo Playout",
+                Type = AppointmentType.Nachtdienst,
                 Date = new DateTime(2023, 4, 1),
                 Time = new TimeSpan(23, 45, 0),
                 Billable = true,
-                DayId = 3,
+                DayScheduleId = 3,
                 EmployeeId = 3,
             }
         };
@@ -81,28 +79,28 @@ public class SeedHelper
     }
 
 
-    public static IEnumerable<Day> GetDaySeeds()
+    public static IEnumerable<DaySchedule> GetDaySeeds()
     {
         var appointments = GetAppointmentSeeds().ToList();
 
-        var days = new List<Day>()
+        var days = new List<DaySchedule>()
         {
-            new Day()
+            new DaySchedule()
             {
-                DayId = 1,
-                Name = "Maandag"
+                DayScheduleId = 1,
+                DayOfWeek = DayOfWeek.Monday,
             },
 
-            new Day()
+            new DaySchedule()
             {
-                DayId = 2,
-                Name = "Dinsdag"
+                DayScheduleId = 2,
+                DayOfWeek = DayOfWeek.Tuesday,
             },
 
-            new Day()
+            new DaySchedule()
             {
-                DayId = 3,
-                Name = "Woensdag"
+                DayScheduleId = 3,
+                DayOfWeek = DayOfWeek.Wednesday,
             },
         };
 
@@ -111,26 +109,26 @@ public class SeedHelper
 
 
 
-    public static IEnumerable<Schedule> GetScheduleSeeds()
+    public static IEnumerable<WeekSchedule> GetScheduleSeeds()
     {
-        var schedule = new List<Schedule>()
+        var schedule = new List<WeekSchedule>()
         {
-            new Schedule()
+            new WeekSchedule()
             {
-                ScheduleId = 1,
-                DayId = 1
+                WeekScheduleId = 1,
+                WeekNumber = 1
             },
 
-            new Schedule()
+            new WeekSchedule()
             {
-                ScheduleId = 2,
-                DayId = 2
+                WeekScheduleId = 2,
+                WeekNumber = 2
             },
 
-            new Schedule()
+            new WeekSchedule()
             {
-                ScheduleId = 3,
-                DayId = 3
+                WeekScheduleId = 3,
+                WeekNumber = 3
             }
         };
 
