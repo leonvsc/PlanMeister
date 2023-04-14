@@ -95,14 +95,14 @@ public class SeedHelper
             {
                 DayScheduleId = 2,
                 DayOfWeek = DayOfWeek.Tuesday,
-                WeekScheduleId = 2
+                WeekScheduleId = 1
             },
 
             new DaySchedule()
             {
                 DayScheduleId = 3,
                 DayOfWeek = DayOfWeek.Wednesday,
-                WeekScheduleId = 3
+                WeekScheduleId = 1
             },
         };
 
