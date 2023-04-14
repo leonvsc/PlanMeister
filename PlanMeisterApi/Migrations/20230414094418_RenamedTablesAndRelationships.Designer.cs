@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PlanMeisterApi.Models;
 
@@ -11,9 +12,11 @@ using PlanMeisterApi.Models;
 namespace PlanMeisterApi.Migrations
 {
     [DbContext(typeof(PlanMeisterDbContext))]
-    partial class PlanMeisterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230414094418_RenamedTablesAndRelationships")]
+    partial class RenamedTablesAndRelationships
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,9 +56,8 @@ namespace PlanMeisterApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.HasKey("AppointmentId");
 
@@ -76,7 +78,7 @@ namespace PlanMeisterApi.Migrations
                             EmployeeId = 1,
                             Time = new TimeSpan(0, 7, 45, 0, 0),
                             Title = "Ziggo Playout",
-                            Type = "Ochtenddienst"
+                            Type = 0
                         },
                         new
                         {
@@ -88,7 +90,7 @@ namespace PlanMeisterApi.Migrations
                             EmployeeId = 2,
                             Time = new TimeSpan(0, 15, 45, 0, 0),
                             Title = "Ziggo Playout",
-                            Type = "Avonddienst"
+                            Type = 1
                         },
                         new
                         {
@@ -100,7 +102,7 @@ namespace PlanMeisterApi.Migrations
                             EmployeeId = 3,
                             Time = new TimeSpan(0, 23, 45, 0, 0),
                             Title = "Ziggo Playout",
-                            Type = "Nachtdienst"
+                            Type = 2
                         });
                 });
 
@@ -112,9 +114,8 @@ namespace PlanMeisterApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DayScheduleId"));
 
-                    b.Property<string>("DayOfWeek")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("DayOfWeek")
+                        .HasColumnType("int");
 
                     b.Property<int>("WeekScheduleId")
                         .HasColumnType("int");
@@ -129,19 +130,19 @@ namespace PlanMeisterApi.Migrations
                         new
                         {
                             DayScheduleId = 1,
-                            DayOfWeek = "Monday",
+                            DayOfWeek = 1,
                             WeekScheduleId = 1
                         },
                         new
                         {
                             DayScheduleId = 2,
-                            DayOfWeek = "Tuesday",
+                            DayOfWeek = 2,
                             WeekScheduleId = 2
                         },
                         new
                         {
                             DayScheduleId = 3,
-                            DayOfWeek = "Wednesday",
+                            DayOfWeek = 3,
                             WeekScheduleId = 3
                         });
                 });

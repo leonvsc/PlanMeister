@@ -1,5 +1,4 @@
 using PlanMeisterApi.Enum;
-using DayOfWeek = System.DayOfWeek;
 
 namespace PlanMeisterApi.Models;
 
@@ -89,18 +88,21 @@ public class SeedHelper
             {
                 DayScheduleId = 1,
                 DayOfWeek = DayOfWeek.Monday,
+                WeekScheduleId = 1
             },
 
             new DaySchedule()
             {
                 DayScheduleId = 2,
                 DayOfWeek = DayOfWeek.Tuesday,
+                WeekScheduleId = 2
             },
 
             new DaySchedule()
             {
                 DayScheduleId = 3,
                 DayOfWeek = DayOfWeek.Wednesday,
+                WeekScheduleId = 3
             },
         };
 

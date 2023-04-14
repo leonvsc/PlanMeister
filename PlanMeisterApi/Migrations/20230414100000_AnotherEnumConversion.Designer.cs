@@ -12,8 +12,8 @@ using PlanMeisterApi.Models;
 namespace PlanMeisterApi.Migrations
 {
     [DbContext(typeof(PlanMeisterDbContext))]
-    [Migration("20230413140055_RenamedTablesAndRelationships")]
-    partial class RenamedTablesAndRelationships
+    [Migration("20230414100000_AnotherEnumConversion")]
+    partial class AnotherEnumConversion
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,8 +56,9 @@ namespace PlanMeisterApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AppointmentId");
 
@@ -78,7 +79,7 @@ namespace PlanMeisterApi.Migrations
                             EmployeeId = 1,
                             Time = new TimeSpan(0, 7, 45, 0, 0),
                             Title = "Ziggo Playout",
-                            Type = 0
+                            Type = "Ochtenddienst"
                         },
                         new
                         {
@@ -90,7 +91,7 @@ namespace PlanMeisterApi.Migrations
                             EmployeeId = 2,
                             Time = new TimeSpan(0, 15, 45, 0, 0),
                             Title = "Ziggo Playout",
-                            Type = 1
+                            Type = "Avonddienst"
                         },
                         new
                         {
@@ -102,7 +103,7 @@ namespace PlanMeisterApi.Migrations
                             EmployeeId = 3,
                             Time = new TimeSpan(0, 23, 45, 0, 0),
                             Title = "Ziggo Playout",
-                            Type = 2
+                            Type = "Nachtdienst"
                         });
                 });
 
@@ -114,8 +115,9 @@ namespace PlanMeisterApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DayScheduleId"));
 
-                    b.Property<int>("DayOfWeek")
-                        .HasColumnType("int");
+                    b.Property<string>("DayOfWeek")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("WeekScheduleId")
                         .HasColumnType("int");
@@ -130,20 +132,20 @@ namespace PlanMeisterApi.Migrations
                         new
                         {
                             DayScheduleId = 1,
-                            DayOfWeek = 1,
-                            WeekScheduleId = 0
+                            DayOfWeek = "Monday",
+                            WeekScheduleId = 1
                         },
                         new
                         {
                             DayScheduleId = 2,
-                            DayOfWeek = 2,
-                            WeekScheduleId = 0
+                            DayOfWeek = "Tuesday",
+                            WeekScheduleId = 2
                         },
                         new
                         {
                             DayScheduleId = 3,
-                            DayOfWeek = 3,
-                            WeekScheduleId = 0
+                            DayOfWeek = "Wednesday",
+                            WeekScheduleId = 3
                         });
                 });
 

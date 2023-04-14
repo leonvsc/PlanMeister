@@ -33,9 +33,6 @@ public class PlanMeisterDbContext : DbContext
             .WithMany(e => e.Appointments)
             .HasForeignKey(a => a.EmployeeId);
 
-        // Seed data for the Appointment model
-        modelBuilder.Entity<Appointment>().HasData(SeedHelper.GetAppointmentSeeds());
-        
         // Configure the relationship between Request and Employee
         modelBuilder.Entity<Employee>()
             .HasMany(e => e.Requests)
@@ -48,11 +45,22 @@ public class PlanMeisterDbContext : DbContext
             .WithMany(d => d.DaySchedules)
             .HasForeignKey(d => d.WeekScheduleId);
         
-        // Convert Enum to String
+        // Convert Request Enum to String
         modelBuilder.Entity<Request>()
             .Property(d => d.RequestType)
             .HasConversion(new EnumToStringConverter<RequestType>());
-
+        
+        // Convert DayOfWeek Enum to String
+        modelBuilder.Entity<DaySchedule>()
+            .Property(d => d.DayOfWeek)
+            .HasConversion(new EnumToStringConverter<DayOfWeek>());
+        
+        // Convert AppointmentType Enum to String
+        modelBuilder.Entity<Appointment>()
+            .Property(d => d.Type)
+            .HasConversion(new EnumToStringConverter<AppointmentType>());
+        
+        modelBuilder.Entity<Appointment>().HasData(SeedHelper.GetAppointmentSeeds());
         modelBuilder.Entity<Employee>().HasData(SeedHelper.GetEmployeeSeeds());
         modelBuilder.Entity<DaySchedule>().HasData(SeedHelper.GetDaySeeds());
         modelBuilder.Entity<Request>().HasData(SeedHelper.GetRequestSeeds());

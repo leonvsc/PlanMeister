@@ -116,16 +116,6 @@ namespace PlanMeisterApi.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "DaySchedules",
-                columns: new[] { "DayScheduleId", "DayOfWeek", "WeekScheduleId" },
-                values: new object[,]
-                {
-                    { 1, 1, 0 },
-                    { 2, 2, 0 },
-                    { 3, 3, 0 }
-                });
-
-            migrationBuilder.InsertData(
                 table: "Employees",
                 columns: new[] { "EmployeeId", "Name" },
                 values: new object[,]
@@ -146,13 +136,13 @@ namespace PlanMeisterApi.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Appointments",
-                columns: new[] { "AppointmentId", "Billable", "Date", "DayScheduleId", "Description", "EmployeeId", "Time", "Title", "Type" },
+                table: "DaySchedules",
+                columns: new[] { "DayScheduleId", "DayOfWeek", "WeekScheduleId" },
                 values: new object[,]
                 {
-                    { 1, true, new DateTime(2023, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Ziggo Playout Ochtenddienst", 1, new TimeSpan(0, 7, 45, 0, 0), "Ziggo Playout", 0 },
-                    { 2, true, new DateTime(2023, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Ziggo Playout Avonddienst", 2, new TimeSpan(0, 15, 45, 0, 0), "Ziggo Playout", 1 },
-                    { 3, true, new DateTime(2023, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, "Ziggo Playout Nachtdienst", 3, new TimeSpan(0, 23, 45, 0, 0), "Ziggo Playout", 2 }
+                    { 1, 1, 1 },
+                    { 2, 2, 2 },
+                    { 3, 3, 3 }
                 });
 
             migrationBuilder.InsertData(
@@ -163,6 +153,16 @@ namespace PlanMeisterApi.Migrations
                     { 1, "01-04-2023", "10-04-2023", 1, "Vakantie", "00:00", "23:59" },
                     { 2, "01-04-2023", "10-04-2023", 2, "Vakantie", "00:00", "23:59" },
                     { 3, "01-04-2023", "10-04-2023", 3, "Vakantie", "00:00", "23:59" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Appointments",
+                columns: new[] { "AppointmentId", "Billable", "Date", "DayScheduleId", "Description", "EmployeeId", "Time", "Title", "Type" },
+                values: new object[,]
+                {
+                    { 1, true, new DateTime(2023, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Ziggo Playout Ochtenddienst", 1, new TimeSpan(0, 7, 45, 0, 0), "Ziggo Playout", 0 },
+                    { 2, true, new DateTime(2023, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Ziggo Playout Avonddienst", 2, new TimeSpan(0, 15, 45, 0, 0), "Ziggo Playout", 1 },
+                    { 3, true, new DateTime(2023, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, "Ziggo Playout Nachtdienst", 3, new TimeSpan(0, 23, 45, 0, 0), "Ziggo Playout", 2 }
                 });
 
             migrationBuilder.CreateIndex(
