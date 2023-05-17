@@ -63,7 +63,7 @@ namespace PlanMeisterApi.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("Appointments");
+                    b.ToTable("Appointments", (string)null);
 
                     b.HasData(
                         new
@@ -123,7 +123,7 @@ namespace PlanMeisterApi.Migrations
 
                     b.HasIndex("WeekScheduleId");
 
-                    b.ToTable("DaySchedules");
+                    b.ToTable("DaySchedules", (string)null);
 
                     b.HasData(
                         new
@@ -160,7 +160,7 @@ namespace PlanMeisterApi.Migrations
 
                     b.HasKey("EmployeeId");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", (string)null);
 
                     b.HasData(
                         new
@@ -215,7 +215,7 @@ namespace PlanMeisterApi.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("Requests");
+                    b.ToTable("Requests", (string)null);
 
                     b.HasData(
                         new
@@ -263,7 +263,7 @@ namespace PlanMeisterApi.Migrations
 
                     b.HasKey("WeekScheduleId");
 
-                    b.ToTable("WeekSchedules");
+                    b.ToTable("WeekSchedules", (string)null);
 
                     b.HasData(
                         new

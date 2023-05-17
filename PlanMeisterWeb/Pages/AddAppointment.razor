@@ -1,0 +1,76 @@
+@page "/AddAppointment"
+@using PlanMeisterWeb.Models
+@using PlanMeisterWeb.Enum
+@using System.Text.Json
+
+
+<EditForm Model="AppointmentModel" OnValidSubmit="HandleValidSubmit" OnInitialized="Initialize">
+    <div class="form-group">
+        <label for="title">Title:</label>
+        <input id="title" name="title" class="form-control" @bind="@AppointmentModel.Title" required />
+        <ValidationMessage For="@(() => AppointmentModel.Title)"/>
+    </div>
+    
+    <div class="form-group">
+        <label for="description">Description:</label>
+        <input id="description" name="description" class="form-control" @bind="@AppointmentModel.Description" required />
+        <ValidationMessage For="@(() => AppointmentModel.Description)"/>
+    </div>
+    
+    <div class="form-group">
+        <label for="appointment-type">Appointment Type</label>
+        <select id="appointment-type" class="form-control" @bind="@AppointmentModel.Type" required>
+            @foreach (var value in Enum.GetValues(typeof(AppointmentType)))
+            {
+                <option value="@value">@value</option>
+            }
+        </select>
+        <ValidationMessage For="@(() => AppointmentModel.Type)"/>
+    </div>
+    
+    <div class="form-group">
+        <label for="date">Date:</label>
+        <DatePicker TValue="DateTime" TimeAs24hr="true"></DatePicker>
+        
+        <label for="time">Time:</label>
+        <TimePicker TValue="TimeSpan" TimeAs24hr="true"></TimePicker>
+    </div>
+    
+    <Check TValue="bool" @bind-Checked="@AppointmentModel.Billable">Billable?</Check>
+
+    <button type="submit" class="btn btn-primary">Add Appointment</button>
+</EditForm>
+
+@code
+{
+    private AppointmentModel AppointmentModel = new AppointmentModel();
+    
+    private async Task<int> AddAppointmentToAPI()
+    {
+        var httpClient = new HttpClient();
+
+        var addAppointment = new AppointmentModel
+        {
+            Title = AppointmentModel.Title,
+            Description = AppointmentModel.Description,
+            Type = AppointmentModel.Type,
+            Date = AppointmentModel.Date,
+            Time = AppointmentModel.Time,
+            Billable = AppointmentModel.Billable
+        };
+        
+        var response = await httpClient.PostAsJsonAsync("http://localhost:5059/api/appointment", addAppointment);
+        response.EnsureSuccessStatusCode();
+        
+        string responseContent = await response.Content.ReadAsStringAsync();
+        var appointmentId = JsonSerializer.Deserialize<int>(responseContent);
+        
+        return appointmentId;
+    }
+    
+    private async void HandleValidSubmit()
+    {
+        await AddAppointmentToAPI();
+    }
+
+}

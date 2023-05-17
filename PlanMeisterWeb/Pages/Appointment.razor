@@ -1,0 +1,67 @@
+@page "/appointment"
+@using PlanMeisterWeb.Models
+@using PlanMeisterWeb.Service
+@inject AppointmentService AppointmentService
+
+<PageTitle>Appointment</PageTitle>
+
+<Modal @ref="modalRef">
+    <ModalContent Centered>
+        <ModalHeader>
+            <ModalTitle>Add Appointment</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <AddAppointment></AddAppointment>
+        </ModalBody>
+    </ModalContent>
+</Modal>
+
+
+<h1>Appointments</h1>
+
+@if (Appointments == null)
+{
+    <h3>Employees are loading</h3>
+}
+else
+{
+
+
+    <div>
+
+        @foreach (var appointment in Appointments)
+        {
+            <div>
+                <h4>@appointment.Title</h4>
+                <p>@appointment.Description</p>
+            </div>
+        }
+    </div>
+}
+
+<Button Color="Color.Primary" Clicked="@ShowModal">Add Appointment</Button>
+
+@code
+{
+    public IEnumerable<AppointmentModel> Appointments { get; set; }
+    
+    private Modal modalRef;
+
+
+    
+    protected override async Task OnInitializedAsync()
+    {
+        Appointments = await AppointmentService.GetAppointments();
+    }
+    
+    private Task ShowModal()
+    {
+        return modalRef.Show();
+    }
+
+    private Task HideModal()
+    {
+        return modalRef.Hide();
+    }
+}

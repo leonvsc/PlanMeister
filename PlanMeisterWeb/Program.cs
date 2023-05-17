@@ -21,5 +21,6 @@ builder.Services
 // builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5175") });
 builder.Services.AddScoped<EmployeeService, EmployeeService>();
+builder.Services.AddScoped<AppointmentService, AppointmentService>();
 
 await builder.Build().RunAsync();
