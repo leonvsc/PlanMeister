@@ -1,0 +1,38 @@
+@page "/employee"
+@using PlanMeisterWeb.Service
+@using PlanMeisterWeb.Models
+@inject EmployeeService EmployeeService
+
+<PageTitle>Employee</PageTitle>
+
+<h1>Employee List</h1>
+
+@if (Employees == null)
+{
+    <h3>Employees are loading</h3>
+}
+else
+{
+
+
+    <div>
+
+        @foreach (var employee in Employees)
+        {
+            <div>
+                <h4>@employee.Name</h4>
+            </div>
+        }
+    </div>
+}
+
+@code
+{
+    public IEnumerable<EmployeeModel> Employees { get; set; }
+
+    
+    protected override async Task OnInitializedAsync()
+    {
+        Employees = await EmployeeService.GetEmployees();
+    }
+}
