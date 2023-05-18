@@ -1,3 +1,4 @@
+using PlanMeisterApi.DTO;
 using PlanMeisterApi.Models;
 using PlanMeisterApi.Repositories;
 
@@ -17,7 +18,7 @@ public class AppointmentService : IAppointmentService
         return await _appointmentRepository.GetAppointmentById(appointmentId);
     }
 
-    public async Task<IEnumerable<Appointment>> GetAllAppointments()
+    public async Task<IEnumerable<AppointmentDto>> GetAllAppointments()
     {
         return await _appointmentRepository.GetAllAppointments();
     }

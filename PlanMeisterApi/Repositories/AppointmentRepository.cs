@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using PlanMeisterApi.DTO;
 using PlanMeisterApi.Models;
 
 namespace PlanMeisterApi.Repositories;
@@ -17,9 +18,22 @@ public class AppointmentRepository : IAppointmentRepository
         return await _dbContext.Appointments.FindAsync(appointmentId);
     }
 
-    public async Task<IEnumerable<Appointment>> GetAllAppointments()
+    public async Task<IEnumerable<AppointmentDto>> GetAllAppointments()
     {
-        return await _dbContext.Appointments.ToListAsync();
+        return await _dbContext.Appointments
+            .Include(e => e.DaySchedule)
+            .Select(x => new AppointmentDto()
+            {
+                AppointmentId = x.AppointmentId,
+                Title = x.Title,
+                Description = x.Description,
+                Type = x.Type,
+                StartDateTime = x.StartDateTime,
+                EndDateTime = x.EndDateTime,
+                Billable = x.Billable,
+                DaySchedule = x.DaySchedule
+            })
+            .ToListAsync();
     }
 
     public async Task AddAppointment(Appointment appointment)

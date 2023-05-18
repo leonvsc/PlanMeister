@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PlanMeisterApi.DTO;
 using PlanMeisterApi.Models;
 using PlanMeisterApi.Services;
 
@@ -16,7 +17,7 @@ namespace PlanMeisterApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Appointment>>> GetAppointments()
+        public async Task<ActionResult<IEnumerable<AppointmentDto>>> GetAppointments()
         {
             var appointments = await _appointmentService.GetAllAppointments();
             if (appointments == null)
