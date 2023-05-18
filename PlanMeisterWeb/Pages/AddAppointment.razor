@@ -4,62 +4,64 @@
 @using System.Text.Json
 
 
-<EditForm Model="AppointmentModel" OnValidSubmit="HandleValidSubmit" OnInitialized="Initialize">
+<EditForm Model="Appointment" OnValidSubmit="HandleValidSubmit" OnInitialized="Initialize">
     <div class="form-group">
         <label for="title">Title:</label>
-        <input id="title" name="title" class="form-control" @bind="@AppointmentModel.Title" required />
-        <ValidationMessage For="@(() => AppointmentModel.Title)"/>
+        <input id="title" name="title" class="form-control" @bind="@Appointment.Title" required />
+        <ValidationMessage For="@(() => Appointment.Title)"/>
     </div>
     
     <div class="form-group">
         <label for="description">Description:</label>
-        <input id="description" name="description" class="form-control" @bind="@AppointmentModel.Description" required />
-        <ValidationMessage For="@(() => AppointmentModel.Description)"/>
+        <input id="description" name="description" class="form-control" @bind="@Appointment.Description" required />
+        <ValidationMessage For="@(() => Appointment.Description)"/>
     </div>
     
     <div class="form-group">
         <label for="appointment-type">Appointment Type</label>
-        <select id="appointment-type" class="form-control" @bind="@AppointmentModel.Type" required>
+        <select id="appointment-type" class="form-control" @bind="@Appointment.Type" required>
             @foreach (var value in Enum.GetValues(typeof(AppointmentType)))
             {
                 <option value="@value">@value</option>
             }
         </select>
-        <ValidationMessage For="@(() => AppointmentModel.Type)"/>
+        <ValidationMessage For="@(() => Appointment.Type)"/>
     </div>
     
     <div class="form-group">
-        <label for="date">Date:</label>
-        <DatePicker TValue="DateTime" TimeAs24hr="true"></DatePicker>
+        <label for="date">From:</label>
+        <input TValue="DateTime" id="date" name="date" class="form-control" type="datetime-local" @bind="Appointment.StartDateTime"/>
         
-        <label for="time">Time:</label>
-        <TimePicker TValue="TimeSpan" TimeAs24hr="true"></TimePicker>
+        <label for="time">Until:</label>
+        <input TValue="DateTime" id="time" name="time" class="form-control" type="datetime-local" @bind="Appointment.EndDateTime"/>
     </div>
     
-    <Check TValue="bool" @bind-Checked="@AppointmentModel.Billable">Billable?</Check>
+    <Check TValue="bool" @bind-Checked="@Appointment.Billable">Billable?</Check>
 
     <button type="submit" class="btn btn-primary">Add Appointment</button>
 </EditForm>
 
 @code
 {
-    private AppointmentModel AppointmentModel = new AppointmentModel();
+    private AppointmentModel Appointment = new AppointmentModel();
     
-    private async Task<int> AddAppointmentToAPI()
+    private async Task<int> AddAppointmentToApi()
     {
         var httpClient = new HttpClient();
 
         var addAppointment = new AppointmentModel
         {
-            Title = AppointmentModel.Title,
-            Description = AppointmentModel.Description,
-            Type = AppointmentModel.Type,
-            Date = AppointmentModel.Date,
-            Time = AppointmentModel.Time,
-            Billable = AppointmentModel.Billable
+            Title = Appointment.Title,
+            Description = Appointment.Description,
+            Type = Appointment.Type,
+            StartDateTime = Appointment.StartDateTime,
+            EndDateTime = Appointment.EndDateTime,
+            Billable = Appointment.Billable,
+            DayScheduleId = Appointment.DayScheduleId,
+            EmployeeId = Appointment.EmployeeId
         };
         
-        var response = await httpClient.PostAsJsonAsync("http://localhost:5059/api/appointment", addAppointment);
+        var response = await httpClient.PostAsJsonAsync("http://localhost:5175/api/appointment", addAppointment);
         response.EnsureSuccessStatusCode();
         
         string responseContent = await response.Content.ReadAsStringAsync();
@@ -70,7 +72,7 @@
     
     private async void HandleValidSubmit()
     {
-        await AddAppointmentToAPI();
+        await AddAppointmentToApi();
     }
 
 }
