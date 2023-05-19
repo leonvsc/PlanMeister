@@ -37,6 +37,18 @@ namespace PlanMeisterApi.Controllers
             return Ok(appointment);
         }
 
+        [HttpGet("ReadByDay/{dayScheduleId}")]
+        public async Task<ActionResult<IEnumerable<Appointment>>> ReadByDay(int dayScheduleId)
+        {
+            var appointments = await _appointmentService.GetAppointmentsByDay(dayScheduleId);
+            if (appointments == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(appointments);
+        }
+
         [HttpPost]
         public async Task<ActionResult<Appointment>> PostAppointment(Appointment appointment)
         {

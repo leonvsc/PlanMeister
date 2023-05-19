@@ -21,6 +21,13 @@ public class AppointmentRepository : IAppointmentRepository
     {
         return await _dbContext.Appointments.ToListAsync();
     }
+    
+    public async Task<IEnumerable<Appointment>> GetAppointmentsByDay(int dayScheduleId)
+    {
+        return await _dbContext.Appointments
+            .Where(appointment => appointment.DayScheduleId == dayScheduleId)
+            .ToListAsync();
+    }
 
     public async Task AddAppointment(Appointment appointment)
     {
