@@ -13,8 +13,8 @@ public class Appointment
     public bool Billable { get; set; }
 
     public int DayScheduleId { get; set; }
-    public DaySchedule DaySchedule { get; set; }
+    public virtual DaySchedule DaySchedule { get; set; }
 
     public int EmployeeId { get; set; }
-    public Employee Employee { get; set; }
+    public virtual Employee Employee { get; set; }
 }

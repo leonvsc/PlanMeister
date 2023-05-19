@@ -6,7 +6,7 @@ public class DaySchedule
     public DayOfWeek DayOfWeek { get; set; }
 
     public int WeekScheduleId { get; set; }
-    public WeekSchedule WeekSchedule { get; set; }
+    public virtual WeekSchedule WeekSchedule { get; set; }
     
-    public ICollection<Appointment> Appointments { get; set; }
+    public virtual ICollection<Appointment> Appointments { get; set; }
 }

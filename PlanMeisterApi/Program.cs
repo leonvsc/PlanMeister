@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using PlanMeisterApi.Models;
 using PlanMeisterApi.Repositories;
@@ -8,7 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 DotNetEnv.Env.Load();
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
+
 builder.Services.AddDbContext<PlanMeisterDbContext>((optionsBuilder) =>
 {
     var connectionString = Environment.GetEnvironmentVariable("DB_Connection");

@@ -12,5 +12,5 @@ public class Request
     public string TimeTill { get; set; } // Maybe een time type?
 
     public int EmployeeId { get; set; }
-    public Employee Employee { get; set; }
+    public virtual Employee Employee { get; set; }
 }

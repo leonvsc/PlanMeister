@@ -21,29 +21,29 @@ public class PlanMeisterDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         
-        // Configure the relationship between Appointment and DaySchedule
-        modelBuilder.Entity<Appointment>()
-            .HasOne(a => a.DaySchedule)
-            .WithMany(d => d.Appointments)
-            .HasForeignKey(a => a.DayScheduleId);
-
-        // Configure the relationship between Appointment and Employee
-        modelBuilder.Entity<Appointment>()
-            .HasOne(a => a.Employee)
-            .WithMany(e => e.Appointments)
-            .HasForeignKey(a => a.EmployeeId);
-
-        // Configure the relationship between Request and Employee
-        modelBuilder.Entity<Employee>()
-            .HasMany(e => e.Requests)
-            .WithOne(r => r.Employee)
-            .HasForeignKey(r => r.EmployeeId);
-        
-        // Configure the relationship between DaySchedule and WeekSchedule
-        modelBuilder.Entity<DaySchedule>()
-            .HasOne(w => w.WeekSchedule)
-            .WithMany(d => d.DaySchedules)
-            .HasForeignKey(d => d.WeekScheduleId);
+        // // Configure the relationship between Appointment and DaySchedule
+        // modelBuilder.Entity<Appointment>()
+        //     .HasOne(a => a.DaySchedule)
+        //     .WithMany(d => d.Appointments)
+        //     .HasForeignKey(a => a.DayScheduleId);
+        //
+        // // Configure the relationship between Appointment and Employee
+        // modelBuilder.Entity<Appointment>()
+        //     .HasOne(a => a.Employee)
+        //     .WithMany(e => e.Appointments)
+        //     .HasForeignKey(a => a.EmployeeId);
+        //
+        // // Configure the relationship between Request and Employee
+        // modelBuilder.Entity<Employee>()
+        //     .HasMany(e => e.Requests)
+        //     .WithOne(r => r.Employee)
+        //     .HasForeignKey(r => r.EmployeeId);
+        //
+        // // Configure the relationship between DaySchedule and WeekSchedule
+        // modelBuilder.Entity<DaySchedule>()
+        //     .HasOne(w => w.WeekSchedule)
+        //     .WithMany(d => d.DaySchedules)
+        //     .HasForeignKey(d => d.WeekScheduleId);
         
         // Convert Request Enum to String
         modelBuilder.Entity<Request>()
@@ -66,4 +66,10 @@ public class PlanMeisterDbContext : DbContext
         modelBuilder.Entity<Request>().HasData(SeedHelper.GetRequestSeeds());
         modelBuilder.Entity<WeekSchedule>().HasData(SeedHelper.GetScheduleSeeds());
     }
+    
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseLazyLoadingProxies();
+    }
+
 }
