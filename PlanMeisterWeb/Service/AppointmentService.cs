@@ -12,7 +12,7 @@ public class AppointmentService
         this._httpClient = httpClient;
     }
     
-    public async Task<IEnumerable<AppointmentModel>> GetAppointments()
+    public async Task<IEnumerable<Appointment>> GetAppointments()
     {
         try
         {
@@ -22,9 +22,9 @@ public class AppointmentService
             {
                 if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
                 {
-                    return Enumerable.Empty<AppointmentModel>();
+                    return Enumerable.Empty<Appointment>();
                 }
-                return await response.Content.ReadFromJsonAsync<IEnumerable<AppointmentModel>>();
+                return await response.Content.ReadFromJsonAsync<IEnumerable<Appointment>>();
             }
             else
             {

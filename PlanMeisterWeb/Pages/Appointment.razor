@@ -1,5 +1,4 @@
 @page "/appointment"
-@using PlanMeisterWeb.Models
 @using PlanMeisterWeb.Service
 @inject AppointmentService AppointmentService
 
@@ -9,7 +8,7 @@
     <ModalContent Centered>
         <ModalHeader>
             <ModalTitle>Add Appointment</ModalTitle>
-            <CloseButton />
+            <CloseButton/>
         </ModalHeader>
         <ModalBody>
             <AddAppointment></AddAppointment>
@@ -26,8 +25,6 @@
 }
 else
 {
-
-
     <div>
 
         @foreach (var appointment in Appointments)
@@ -44,17 +41,16 @@ else
 
 @code
 {
-    public IEnumerable<AppointmentModel> Appointments { get; set; }
-    
+    public IEnumerable<Models.Appointment> Appointments { get; set; }
+
     private Modal modalRef;
 
 
-    
     protected override async Task OnInitializedAsync()
     {
         Appointments = await AppointmentService.GetAppointments();
     }
-    
+
     private Task ShowModal()
     {
         return modalRef.Show();

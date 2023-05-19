@@ -2,7 +2,7 @@ using PlanMeisterWeb.Enum;
 
 namespace PlanMeisterWeb.Models;
 
-public class AppointmentModel
+public class Appointment
 {
     public int AppointmentId { get; set; }
     public string Title { get; set; }

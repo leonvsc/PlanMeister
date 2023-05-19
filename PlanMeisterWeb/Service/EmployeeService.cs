@@ -12,7 +12,7 @@ public class EmployeeService
         this._httpClient = httpClient;
     }
     
-    public async Task<IEnumerable<EmployeeModel>> GetEmployees()
+    public async Task<IEnumerable<Employee>> GetEmployees()
     {
         try
         {
@@ -22,9 +22,9 @@ public class EmployeeService
             {
                 if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
                 {
-                    return Enumerable.Empty<EmployeeModel>();
+                    return Enumerable.Empty<Employee>();
                 }
-                return await response.Content.ReadFromJsonAsync<IEnumerable<EmployeeModel>>();
+                return await response.Content.ReadFromJsonAsync<IEnumerable<Employee>>();
             }
             else
             {

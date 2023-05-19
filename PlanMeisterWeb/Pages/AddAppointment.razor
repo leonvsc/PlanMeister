@@ -43,13 +43,13 @@
 
 @code
 {
-    private AppointmentModel Appointment = new AppointmentModel();
+    private Models.Appointment Appointment = new Models.Appointment();
     
     private async Task<int> AddAppointmentToApi()
     {
         var httpClient = new HttpClient();
 
-        var addAppointment = new AppointmentModel
+        var addAppointment = new Models.Appointment
         {
             Title = Appointment.Title,
             Description = Appointment.Description,
