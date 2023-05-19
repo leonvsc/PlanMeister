@@ -37,6 +37,18 @@ namespace PlanMeisterApi.Controllers
             return Ok(daySchedule);
         }
 
+        [HttpGet("ReadByWeek/{weekScheduleId}")]
+        public async Task<ActionResult<IEnumerable<DaySchedule>>> ReadByWeek(int weekScheduleId)
+        {
+            var daySchedules = await _dayScheduleService.GetDaySchedulesByWeek(weekScheduleId);
+            if (daySchedules == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(daySchedules);
+        }
+
         [HttpPost]
         public async Task<ActionResult<DaySchedule>> PostDaySchedule(DaySchedule daySchedule)
         {

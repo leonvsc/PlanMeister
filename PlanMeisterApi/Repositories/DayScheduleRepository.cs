@@ -22,6 +22,13 @@ public class DayScheduleRepository : IDayScheduleRepository
         return await _dbContext.DaySchedules.ToListAsync();
     }
 
+    public async Task<IEnumerable<DaySchedule>> GetDaySchedulesByWeek(int weekScheduleId)
+    {
+        return await _dbContext.DaySchedules
+            .Where(daySchedule => daySchedule.WeekScheduleId == weekScheduleId)
+            .ToListAsync();
+    }
+
     public async Task AddDaySchedule(DaySchedule daySchedule)
     {
         await _dbContext.DaySchedules.AddAsync(daySchedule);

@@ -22,6 +22,11 @@ public class DayScheduleService : IDayScheduleService
         return await _dayScheduleRepository.GetAllDaySchedules();
     }
 
+    public async Task<IEnumerable<DaySchedule>> GetDaySchedulesByWeek(int weekScheduleId)
+    {
+        return await _dayScheduleRepository.GetDaySchedulesByWeek(weekScheduleId);
+    }
+
     public async Task AddDaySchedule(DaySchedule daySchedule)
     {
         await _dayScheduleRepository.AddDaySchedule(daySchedule);
