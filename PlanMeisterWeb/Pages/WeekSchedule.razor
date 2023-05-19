@@ -1,0 +1,37 @@
+@page "/weekschedule"
+
+<PageTitle>WeekSchedule</PageTitle>
+
+<h3>WeekSchedule</h3>
+
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th></th>
+            @foreach (var day in DaysOfWeek)
+            {
+                <th>@day</th>
+            }
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var employee in Employees)
+        {
+            <tr>
+                <th>@employee</th>
+                @foreach (var day in DaysOfWeek)
+                {
+                    <td>Appointment</td>
+                }
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+@code
+{
+    private List<string> DaysOfWeek = new List<string> { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+    private List<string> Employees = new List<string> { "Employee A", "Employee B", "Employee C", "Employee D" };
+}
