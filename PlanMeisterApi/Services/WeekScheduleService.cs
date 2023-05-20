@@ -22,6 +22,11 @@ public class WeekScheduleService : IWeekScheduleService
         return await _weekScheduleRepository.GetAllWeekSchedules();
     }
 
+    public async Task<IEnumerable<WeekSchedule>> GetWeekScheduleByWeek(int weekNumber)
+    {
+        return await _weekScheduleRepository.GetWeekScheduleByWeek(weekNumber);
+    }
+
     public async Task AddWeekSchedule(WeekSchedule weekSchedule)
     {
         await _weekScheduleRepository.AddWeekSchedule(weekSchedule);

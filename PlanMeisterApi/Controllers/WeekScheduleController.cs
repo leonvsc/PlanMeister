@@ -18,23 +18,35 @@ namespace PlanMeisterApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WeekSchedule>>> GetWeekSchedules()
         {
-            var WeekSchedules = await _weekScheduleService.GetAllWeekSchedules();
-            if (WeekSchedules == null)
+            var weekSchedules = await _weekScheduleService.GetAllWeekSchedules();
+            if (weekSchedules == null)
             {
                 return NotFound();
             }
-            return Ok(WeekSchedules);
+            return Ok(weekSchedules);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<WeekSchedule>> GetWeekSchedule(int id)
         {
-            var WeekSchedule = await _weekScheduleService.GetWeekScheduleById(id);
-            if (WeekSchedule == null)
+            var weekSchedule = await _weekScheduleService.GetWeekScheduleById(id);
+            if (weekSchedule == null)
             {
                 return NotFound();
             }
-            return Ok(WeekSchedule);
+            return Ok(weekSchedule);
+        }
+
+        [HttpGet("ReadByWeekNumber/{weekNumber:int}")]
+        public async Task<ActionResult<IEnumerable<WeekSchedule>>> ReadByWeekNumber(int weekNumber)
+        {
+            var weekSchedule = await _weekScheduleService.GetWeekScheduleByWeek(weekNumber);
+            if (weekSchedule == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(weekSchedule);
         }
 
         [HttpPost]
@@ -52,7 +64,7 @@ namespace PlanMeisterApi.Controllers
             return CreatedAtAction(nameof(GetWeekSchedule), new { id = weekSchedule.WeekScheduleId }, weekSchedule);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> PutWeekSchedule(int id, WeekSchedule weekSchedule)
         {
             if (id != weekSchedule.WeekScheduleId)
@@ -79,16 +91,16 @@ namespace PlanMeisterApi.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteWeekSchedule(int id)
         {
-            var WeekSchedule = await _weekScheduleService.GetWeekScheduleById(id);
-            if (WeekSchedule == null)
+            var weekSchedule = await _weekScheduleService.GetWeekScheduleById(id);
+            if (weekSchedule == null)
             {
                 return NotFound();
             }
 
-            await _weekScheduleService.DeleteWeekSchedule(WeekSchedule.WeekScheduleId);
+            await _weekScheduleService.DeleteWeekSchedule(weekSchedule.WeekScheduleId);
 
             return NoContent();
         }
