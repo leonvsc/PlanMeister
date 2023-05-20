@@ -40,22 +40,30 @@ public class AppointmentService
 
     public async Task<List<Appointment>> GetAppointmentsByWeek(int weekNumber)
     {
-        var weekSchedules =
-            await _httpClient.GetFromJsonAsync<List<WeekSchedule>>($"/api/WeekSchedule/ReadByWeekNumber/{weekNumber}");
-        var weekSchedule = weekSchedules.FirstOrDefault();
-        var weekScheduleId = weekSchedule?.WeekScheduleId;
-
-        var daySchedules =
-            await _httpClient.GetFromJsonAsync<List<DaySchedule>>($"/api/DaySchedule/ReadByWeek/{weekScheduleId}");
-        var dayScheduleIds = daySchedules.Select(d => d.DayScheduleId).ToList();
-
-        var appointments = new List<Appointment>();
-        foreach (var dayScheduleId in dayScheduleIds)
+        try
         {
-            var appointmentsByDay = await _httpClient.GetFromJsonAsync<List<Appointment>>($"/api/Appointment/ReadByDay/{dayScheduleId}");
-            appointments.AddRange(appointmentsByDay);
-        }
+            var weekSchedules = await _httpClient.GetFromJsonAsync<List<WeekSchedule>>($"/api/WeekSchedule/ReadByWeekNumber/{weekNumber}");
+            var weekSchedule = weekSchedules.FirstOrDefault();
+            var weekScheduleId = weekSchedule?.WeekScheduleId;
 
-        return appointments;
+            var daySchedules = await _httpClient.GetFromJsonAsync<List<DaySchedule>>($"/api/DaySchedule/ReadByWeek/{weekScheduleId}");
+            var dayScheduleIds = daySchedules.Select(d => d.DayScheduleId).ToList();
+
+            var appointments = new List<Appointment>();
+            foreach (var dayScheduleId in dayScheduleIds)
+            {
+                var appointmentsByDay = await _httpClient.GetFromJsonAsync<List<Appointment>>($"/api/Appointment/ReadByDay/{dayScheduleId}");
+                appointments.AddRange(appointmentsByDay);
+            }
+
+            return appointments;
+        }
+        catch (Exception ex)
+        {
+            // Handle the exception here, you can log the error or return an empty list of appointments
+            Console.WriteLine($"Failed to load appointments: {ex.Message}");
+            return new List<Appointment>();
+        }
     }
+
 }

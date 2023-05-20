@@ -1,46 +1,62 @@
 @page "/weekschedule"
 @using PlanMeisterWeb.Service
 @inject AppointmentService AppointmentService
+@inject EmployeeService EmployeeService
 
 <PageTitle>WeekSchedule</PageTitle>
 
 <h3>WeekSchedule</h3>
 
-<div class="table-responsive">
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th></th>
-            @foreach (var day in DaysOfWeek)
-            {
-                <th>@day</th>
-            }
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var employee in Employees)
-        {
-            <tr>
-                <th>@employee</th>
-                @foreach (var day in DaysOfWeek)
-                {
-                    <td>Appointment</td>
-                }
-            </tr>
-        }
-        </tbody>
-    </table>
+<div class="form-group">
+    <label for="weekNumberInput">Week Number:</label>
+    <input id="weekNumberInput" class="form-control" type="number" @bind="@WeekNumber" />
+    <button class="btn btn-primary" @onclick="LoadAppointments">Load Appointments</button>
 </div>
 
-@if (appointments != null)
+@if (appointments != null && Employees != null)
 {
-    foreach (var appointment in appointments)
+    if (appointments.Any())
     {
-        <div>
-            <h4>@appointment.Title</h4>
-            <p>@appointment.Description</p>
-            <!-- Display other appointment details as needed -->
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th></th>
+                    @foreach (var day in DaysOfWeek)
+                    {
+                        <th>@day</th>
+                    }
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var employee in Employees)
+                {
+                    <tr>
+                        <th>@employee?.Name</th>
+                        @foreach (var day in DaysOfWeek)
+                        {
+                            <td>
+                                @foreach (var appointment in appointments)
+                                {
+                                    @if (appointment.EmployeeId == employee.EmployeeId && appointment.StartDateTime.HasValue && appointment.StartDateTime.Value.DayOfWeek.ToString() == day)
+                                    {
+                                        <div>@appointment.Title</div>
+                                        <div>@appointment.Type</div>
+                                    }
+                                }
+                            </td>
+                        }
+                    </tr>
+                }
+                </tbody>
+
+
+            </table>
         </div>
+    }
+    else
+    {
+        <p>No appointments found for the specified week.</p>
     }
 }
 else
@@ -51,12 +67,20 @@ else
 @code
 {
     private List<string> DaysOfWeek = new List<string> { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
-    private List<string> Employees = new List<string> { "Employee A", "Employee B", "Employee C", "Employee D" };
+    private IEnumerable<Models.Employee> Employees { get; set; }
 
-    List<Models.Appointment> appointments;
+
+    private int WeekNumber { get; set; }
+
+    List<Models.Appointment> appointments = new List<Models.Appointment>();
+
+    private async Task LoadAppointments()
+    {
+        appointments = await AppointmentService.GetAppointmentsByWeek(WeekNumber);
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        appointments = await AppointmentService.GetAppointmentsByWeek(1);
+        Employees = await EmployeeService.GetEmployees();
     }
 }
