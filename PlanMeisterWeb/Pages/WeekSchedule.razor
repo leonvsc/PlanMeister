@@ -1,4 +1,6 @@
 @page "/weekschedule"
+@using PlanMeisterWeb.Service
+@inject AppointmentService AppointmentService
 
 <PageTitle>WeekSchedule</PageTitle>
 
@@ -30,8 +32,31 @@
     </table>
 </div>
 
+@if (appointments != null)
+{
+    foreach (var appointment in appointments)
+    {
+        <div>
+            <h4>@appointment.Title</h4>
+            <p>@appointment.Description</p>
+            <!-- Display other appointment details as needed -->
+        </div>
+    }
+}
+else
+{
+    <p>Loading appointments...</p>
+}
+
 @code
 {
     private List<string> DaysOfWeek = new List<string> { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
     private List<string> Employees = new List<string> { "Employee A", "Employee B", "Employee C", "Employee D" };
+
+    List<Models.Appointment> appointments;
+
+    protected override async Task OnInitializedAsync()
+    {
+        appointments = await AppointmentService.GetAppointmentsByWeek(1);
+    }
 }
