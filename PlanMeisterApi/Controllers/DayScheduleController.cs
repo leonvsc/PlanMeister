@@ -37,7 +37,7 @@ namespace PlanMeisterApi.Controllers
             return Ok(daySchedule);
         }
 
-        [HttpGet("ReadByWeek/{weekScheduleId}")]
+        [HttpGet("ReadByWeek/{weekScheduleId:int}")]
         public async Task<ActionResult<IEnumerable<DaySchedule>>> ReadByWeek(int weekScheduleId)
         {
             var daySchedules = await _dayScheduleService.GetDaySchedulesByWeek(weekScheduleId);
@@ -47,6 +47,18 @@ namespace PlanMeisterApi.Controllers
             }
 
             return Ok(daySchedules);
+        }
+
+        [HttpGet("ReadByDate/{date:datetime}")]
+        public async Task<ActionResult<IEnumerable<DaySchedule>>> ReadByDate(DateTime date)
+        {
+            var daySchedule = await _dayScheduleService.GetDayScheduleByDate(date);
+            if (daySchedule == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(daySchedule);
         }
 
         [HttpPost]
@@ -64,7 +76,7 @@ namespace PlanMeisterApi.Controllers
             return CreatedAtAction(nameof(GetDaySchedule), new { id = daySchedule.DayScheduleId }, daySchedule);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> PutDaySchedule(int id, DaySchedule daySchedule)
         {
             if (id != daySchedule.DayScheduleId)
@@ -91,7 +103,7 @@ namespace PlanMeisterApi.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteDaySchedule(int id)
         {
             var day = await _dayScheduleService.GetDayScheduleById(id);

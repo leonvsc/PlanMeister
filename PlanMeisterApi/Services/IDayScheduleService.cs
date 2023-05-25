@@ -7,6 +7,7 @@ public interface IDayScheduleService
     Task<DaySchedule> GetDayScheduleById(int dayId);
     Task<IEnumerable<DaySchedule>> GetAllDaySchedules();
     Task<IEnumerable<DaySchedule>> GetDaySchedulesByWeek(int weekScheduleId);
+    Task<IEnumerable<DaySchedule>> GetDayScheduleByDate(DateTime date);
     Task AddDaySchedule(DaySchedule daySchedule);
     Task UpdateDaySchedule(DaySchedule daySchedule);
     Task DeleteDaySchedule(int dayId);

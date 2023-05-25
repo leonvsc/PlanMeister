@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PlanMeisterApi.Models;
 
@@ -11,9 +12,11 @@ using PlanMeisterApi.Models;
 namespace PlanMeisterApi.Migrations
 {
     [DbContext(typeof(PlanMeisterDbContext))]
-    partial class PlanMeisterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230525143940_ChangedSeeddata25052023")]
+    partial class ChangedSeeddata25052023
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
