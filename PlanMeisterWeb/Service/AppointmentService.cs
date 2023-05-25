@@ -60,7 +60,6 @@ public class AppointmentService
         }
         catch (Exception ex)
         {
-            // Handle the exception here, you can log the error or return an empty list of appointments
             Console.WriteLine($"Failed to load appointments: {ex.Message}");
             return new List<Appointment>();
         }

@@ -2,6 +2,7 @@
 @using PlanMeisterWeb.Models
 @using PlanMeisterWeb.Enum
 @using System.Text.Json
+@inject NavigationManager NavigationManager
 
 
 <EditForm Model="Appointment" OnValidSubmit="HandleValidSubmit" OnInitialized="Initialize">
@@ -45,7 +46,7 @@
 {
     private Models.Appointment Appointment = new Models.Appointment();
     
-    private async Task<int> AddAppointmentToApi()
+    private async Task AddAppointmentToApi()
     {
         var httpClient = new HttpClient();
 
@@ -57,17 +58,18 @@
             StartDateTime = Appointment.StartDateTime,
             EndDateTime = Appointment.EndDateTime,
             Billable = Appointment.Billable,
-            DayScheduleId = Appointment.DayScheduleId,
-            EmployeeId = Appointment.EmployeeId
+            DayScheduleId = 1,
+            EmployeeId = 1
         };
         
         var response = await httpClient.PostAsJsonAsync("http://localhost:5175/api/appointment", addAppointment);
         response.EnsureSuccessStatusCode();
-        
-        string responseContent = await response.Content.ReadAsStringAsync();
-        var appointmentId = JsonSerializer.Deserialize<int>(responseContent);
-        
-        return appointmentId;
+        NavigationManager.NavigateTo("/weekschedule");
+
+    // string responseContent = await response.Content.ReadAsStringAsync();
+        // var appointmentId = JsonSerializer.Deserialize<int>(responseContent);
+        //
+        // return appointmentId;
     }
     
     private async void HandleValidSubmit()
