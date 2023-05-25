@@ -88,6 +88,7 @@ public class SeedHelper
             {
                 DayScheduleId = 1,
                 DayOfWeek = DayOfWeek.Monday,
+                Date = new DateTime(23,05,22),
                 WeekScheduleId = 1
             },
 
@@ -95,6 +96,7 @@ public class SeedHelper
             {
                 DayScheduleId = 2,
                 DayOfWeek = DayOfWeek.Tuesday,
+                Date = new DateTime(23,05,23),
                 WeekScheduleId = 1
             },
 
@@ -102,6 +104,7 @@ public class SeedHelper
             {
                 DayScheduleId = 3,
                 DayOfWeek = DayOfWeek.Wednesday,
+                Date = new DateTime(23,05,24),
                 WeekScheduleId = 1
             },
         };
