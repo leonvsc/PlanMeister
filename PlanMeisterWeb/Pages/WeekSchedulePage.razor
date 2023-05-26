@@ -9,7 +9,7 @@
 
 <div class="form-group">
     <label for="weekNumberInput">Week Number:</label>
-    <input id="weekNumberInput" class="form-control" type="number" @bind="@WeekNumber" />
+    <input id="weekNumberInput" class="form-control" type="number" @bind="@WeekNumber"/>
     <button class="btn btn-primary" @onclick="LoadAppointments">Load Appointments</button>
 </div>
 
@@ -38,7 +38,7 @@
                             <td>
                                 @foreach (var appointment in appointments)
                                 {
-                                    @if (appointment.EmployeeId == employee.EmployeeId && appointment.StartDateTime.HasValue && appointment.StartDateTime.Value.DayOfWeek.ToString() == day)
+                                    @if (appointment.EmployeeId == employee.EmployeeId && appointment.StartDateTime.DayOfWeek.ToString() == day)
                                     {
                                         <div>@appointment.Title</div>
                                         <div>@appointment.Type</div>
@@ -66,13 +66,13 @@ else
 
 @code
 {
-    private List<string> DaysOfWeek = new List<string> { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+    private readonly List<string> DaysOfWeek = new() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
     private IEnumerable<Models.Employee> Employees { get; set; }
 
 
     private int WeekNumber { get; set; }
 
-    List<Models.Appointment> appointments = new List<Models.Appointment>();
+    List<Models.Appointment> appointments = new();
 
     private async Task LoadAppointments()
     {

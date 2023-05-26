@@ -22,5 +22,7 @@ builder.Services
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5175") });
 builder.Services.AddScoped<EmployeeService, EmployeeService>();
 builder.Services.AddScoped<AppointmentService, AppointmentService>();
+builder.Services.AddScoped<DayScheduleService, DayScheduleService>();
+builder.Services.AddScoped<WeekScheduleService, WeekScheduleService>();
 
 await builder.Build().RunAsync();

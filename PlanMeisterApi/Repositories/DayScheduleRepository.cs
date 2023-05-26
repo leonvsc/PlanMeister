@@ -32,7 +32,7 @@ public class DayScheduleRepository : IDayScheduleRepository
     public async Task<IEnumerable<DaySchedule>> GetDayScheduleByDate(DateTime date)
     {
         return await _dbContext.DaySchedules
-            .Where(daySchedule => daySchedule.Date == date)
+            .Where(daySchedule => daySchedule.Date.Date == date.Date)
             .ToListAsync();
     }
 

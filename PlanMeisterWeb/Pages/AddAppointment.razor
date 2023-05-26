@@ -2,7 +2,11 @@
 @using PlanMeisterWeb.Models
 @using PlanMeisterWeb.Enum
 @using System.Text.Json
+@using System.Globalization
+@using PlanMeisterWeb.Service
 @inject NavigationManager NavigationManager
+@inject DayScheduleService DayScheduleService
+
 
 
 <EditForm Model="Appointment" OnValidSubmit="HandleValidSubmit" OnInitialized="Initialize">
@@ -44,12 +48,25 @@
 
 @code
 {
-    private Models.Appointment Appointment = new Models.Appointment();
+    private Models.Appointment Appointment = new Models.Appointment()
+    {
+        // Zet de actuele datum en tijd in het formulier.
+        StartDateTime = DateTime.Now,
+        EndDateTime = DateTime.Now
+    };
+
+
+    private async Task<int> GetDayScheduleIdByDate(DateTime date)
+    {
+        return await DayScheduleService.GetDayScheduleIdByDate(date);
+    }
     
     private async Task AddAppointmentToApi()
     {
         var httpClient = new HttpClient();
 
+        var dayScheduleId = await GetDayScheduleIdByDate(Appointment.StartDateTime);
+        
         var addAppointment = new Models.Appointment
         {
             Title = Appointment.Title,
@@ -58,23 +75,17 @@
             StartDateTime = Appointment.StartDateTime,
             EndDateTime = Appointment.EndDateTime,
             Billable = Appointment.Billable,
-            DayScheduleId = 1,
+            DayScheduleId = dayScheduleId,
             EmployeeId = 1
         };
         
         var response = await httpClient.PostAsJsonAsync("http://localhost:5175/api/appointment", addAppointment);
         response.EnsureSuccessStatusCode();
         NavigationManager.NavigateTo("/weekschedule");
-
-    // string responseContent = await response.Content.ReadAsStringAsync();
-        // var appointmentId = JsonSerializer.Deserialize<int>(responseContent);
-        //
-        // return appointmentId;
     }
     
     private async void HandleValidSubmit()
     {
         await AddAppointmentToApi();
     }
-
 }
