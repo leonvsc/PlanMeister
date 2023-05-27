@@ -6,7 +6,7 @@
 @using PlanMeisterWeb.Service
 @inject NavigationManager NavigationManager
 @inject DayScheduleService DayScheduleService
-
+@inject EmployeeService EmployeeService
 
 
 <EditForm Model="Appointment" OnValidSubmit="HandleValidSubmit" OnInitialized="Initialize">
@@ -34,6 +34,16 @@
     </div>
     
     <div class="form-group">
+        <label for="employee">Employee</label>
+        <select id="employee" class="form-control" required @bind="@Appointment.EmployeeId">
+            @foreach (var employee in Employees)
+            {
+                <option value="@employee.EmployeeId">@employee.Name</option>
+            }
+        </select>
+    </div>
+    
+    <div class="form-group">
         <label for="date">From:</label>
         <input TValue="DateTime" id="date" name="date" class="form-control" type="datetime-local" @bind="Appointment.StartDateTime"/>
         
@@ -48,26 +58,27 @@
 
 @code
 {
-    private Models.Appointment Appointment = new Models.Appointment()
+    private Appointment Appointment = new Models.Appointment()
     {
         // Zet de actuele datum en tijd in het formulier.
         StartDateTime = DateTime.Now,
         EndDateTime = DateTime.Now
     };
 
-
+    private IEnumerable<Employee> Employees { get; set; } = new List<Employee>();
+    
     private async Task<int> GetDayScheduleIdByDate(DateTime date)
     {
         return await DayScheduleService.GetDayScheduleIdByDate(date);
     }
-    
+
     private async Task AddAppointmentToApi()
     {
         var httpClient = new HttpClient();
 
         var dayScheduleId = await GetDayScheduleIdByDate(Appointment.StartDateTime);
         
-        var addAppointment = new Models.Appointment
+        var addAppointment = new Appointment
         {
             Title = Appointment.Title,
             Description = Appointment.Description,
@@ -76,7 +87,7 @@
             EndDateTime = Appointment.EndDateTime,
             Billable = Appointment.Billable,
             DayScheduleId = dayScheduleId,
-            EmployeeId = 1
+            EmployeeId = Appointment.EmployeeId
         };
         
         var response = await httpClient.PostAsJsonAsync("http://localhost:5175/api/appointment", addAppointment);
@@ -87,5 +98,10 @@
     private async void HandleValidSubmit()
     {
         await AddAppointmentToApi();
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        Employees = await EmployeeService.GetEmployees();
     }
 }

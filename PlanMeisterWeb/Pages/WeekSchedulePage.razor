@@ -1,7 +1,9 @@
 @page "/weekschedule"
 @using PlanMeisterWeb.Service
+@using PlanMeisterWeb.Models
 @inject AppointmentService AppointmentService
 @inject EmployeeService EmployeeService
+@inject DayScheduleService DayScheduleService
 
 <PageTitle>WeekSchedule</PageTitle>
 
@@ -10,19 +12,19 @@
 <div class="form-group">
     <label for="weekNumberInput">Week Number:</label>
     <input id="weekNumberInput" class="form-control" type="number" @bind="@WeekNumber"/>
-    <button class="btn btn-primary" @onclick="LoadAppointments">Load Appointments</button>
+    <button class="btn btn-primary" @onclick="@LoadAppointments">Load Appointments</button>
 </div>
 
-@if (appointments != null && Employees != null)
+@if (_appointments != null && Employees != null)
 {
-    if (appointments.Any())
+    if (_appointments.Any())
     {
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
                 <tr>
                     <th></th>
-                    @foreach (var day in DaysOfWeek)
+                    @foreach (var day in _daysOfWeek)
                     {
                         <th>@day</th>
                     }
@@ -32,11 +34,11 @@
                 @foreach (var employee in Employees)
                 {
                     <tr>
-                        <th>@employee?.Name</th>
-                        @foreach (var day in DaysOfWeek)
+                        <th>@employee.Name</th>
+                        @foreach (var day in _daysOfWeek)
                         {
                             <td>
-                                @foreach (var appointment in appointments)
+                                @foreach (var appointment in _appointments)
                                 {
                                     @if (appointment.EmployeeId == employee.EmployeeId && appointment.StartDateTime.DayOfWeek.ToString() == day)
                                     {
@@ -66,17 +68,17 @@ else
 
 @code
 {
-    private readonly List<string> DaysOfWeek = new() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
-    private IEnumerable<Models.Employee> Employees { get; set; }
+    private readonly List<string> _daysOfWeek = new() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+    private IEnumerable<Employee> Employees { get; set; }
 
 
     private int WeekNumber { get; set; }
 
-    List<Models.Appointment> appointments = new();
+    List<Appointment> _appointments = new();
 
     private async Task LoadAppointments()
     {
-        appointments = await AppointmentService.GetAppointmentsByWeek(WeekNumber);
+        _appointments = await AppointmentService.GetAppointmentsByWeek(WeekNumber);
     }
 
     protected override async Task OnInitializedAsync()

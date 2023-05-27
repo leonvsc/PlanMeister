@@ -16,7 +16,7 @@ public class DayScheduleService
 
     public async Task<int> GetDayScheduleIdByDate(DateTime date)
     {
-        var formattedDate = date.ToString("yy-MM-dd");
+        var formattedDate = date.ToString("yyyy-MM-dd");
         var daySchedule = await _httpClient.GetFromJsonAsync<List<DaySchedule>>($"http://localhost:5175/api/DaySchedule/ReadByDate/{formattedDate}");
 
         if (daySchedule.Count == 0)
