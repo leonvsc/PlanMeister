@@ -37,4 +37,9 @@ public class EmployeeService
             throw;
         }
     }
+
+    public async Task<Employee?> GetEmployeeById(int employeeId)
+    {
+        return await _httpClient.GetFromJsonAsync<Employee>($"api/Employee/{employeeId}");
+    }
 }

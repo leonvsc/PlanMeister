@@ -1,5 +1,6 @@
 @page "/appointment"
 @using PlanMeisterWeb.Service
+@using PlanMeisterWeb.Models
 @inject AppointmentService AppointmentService
 
 <PageTitle>Appointment</PageTitle>
@@ -41,7 +42,7 @@ else
 
 @code
 {
-    public IEnumerable<Models.Appointment> Appointments { get; set; }
+    public IEnumerable<Appointment> Appointments { get; set; }
 
     private Modal modalRef;
 
