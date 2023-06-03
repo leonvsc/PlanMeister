@@ -4,7 +4,7 @@ using PlanMeisterWeb;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
-using PlanMeisterWeb.Service;
+using PlanMeisterShared.Service;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");

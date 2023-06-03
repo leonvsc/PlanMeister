@@ -1,6 +1,6 @@
-using PlanMeisterWeb.Enum;
+using PlanMeisterShared.Enum;
 
-namespace PlanMeisterWeb.Models;
+namespace PlanMeisterShared.Models;
 
 public class Appointment
 {

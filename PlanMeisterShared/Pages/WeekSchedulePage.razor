@@ -1,6 +1,6 @@
 @page "/weekschedule"
-@using PlanMeisterWeb.Service
-@using PlanMeisterWeb.Models
+@using PlanMeisterShared.Models
+@using PlanMeisterShared.Service
 @inject AppointmentService AppointmentService
 @inject EmployeeService EmployeeService
 @inject DayScheduleService DayScheduleService
@@ -44,7 +44,7 @@
                                     {
                                         <div>@appointment.Title</div>
                                         <div>@appointment.Type</div>
-                                        <a href="/AppointmentDetails?appointmentid=@appointment.AppointmentId" target="_blank">Show Details</a>
+                                        <a href="/AppointmentDetails?appointmentid=@appointment.AppointmentId">Show Details</a>
                                     }
                                 }
                             </td>

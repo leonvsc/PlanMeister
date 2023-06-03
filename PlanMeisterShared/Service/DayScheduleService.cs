@@ -1,7 +1,7 @@
 using System.Net.Http.Json;
-using PlanMeisterWeb.Models;
+using PlanMeisterShared.Models;
 
-namespace PlanMeisterWeb.Service;
+namespace PlanMeisterShared.Service;
 
 public class DayScheduleService
 {
@@ -17,12 +17,12 @@ public class DayScheduleService
     public async Task<int> GetDayScheduleIdByDate(DateTime date)
     {
         var formattedDate = date.ToString("yyyy-MM-dd");
-        var daySchedule = await _httpClient.GetFromJsonAsync<List<DaySchedule>>($"http://localhost:5175/api/DaySchedule/ReadByDate/{formattedDate}");
+        var daySchedule = await _httpClient.GetFromJsonAsync<List<DaySchedule>>($"api/DaySchedule/ReadByDate/{formattedDate}");
 
         if (daySchedule.Count == 0)
         {
             await CreateDaySchedule(date);
-            daySchedule = await _httpClient.GetFromJsonAsync<List<DaySchedule>>($"http://localhost:5175/api/DaySchedule/ReadByDate/{formattedDate}");
+            daySchedule = await _httpClient.GetFromJsonAsync<List<DaySchedule>>($"api/DaySchedule/ReadByDate/{formattedDate}");
         }
     
         var dayScheduleId = daySchedule[0].DayScheduleId;

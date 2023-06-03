@@ -1,4 +1,4 @@
-namespace PlanMeisterWeb.Models;
+namespace PlanMeisterShared.Models;
 
 public class Employee
 {

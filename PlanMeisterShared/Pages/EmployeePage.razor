@@ -1,6 +1,6 @@
 @page "/employee"
-@using PlanMeisterWeb.Service
-@using PlanMeisterWeb.Models
+@using PlanMeisterShared.Service
+@using PlanMeisterShared.Models
 @inject EmployeeService EmployeeService
 
 <PageTitle>Employee</PageTitle>
@@ -28,7 +28,7 @@ else
 
 @code
 {
-    private IEnumerable<Models.Employee> Employees { get; set; }
+    private IEnumerable<Employee> Employees { get; set; }
 
     
     protected override async Task OnInitializedAsync()

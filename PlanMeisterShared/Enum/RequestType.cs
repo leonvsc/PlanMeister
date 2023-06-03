@@ -1,4 +1,4 @@
-namespace PlanMeisterWeb.Enum;
+namespace PlanMeisterShared.Enum;
 
 public enum RequestType
 {
