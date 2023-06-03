@@ -1,7 +1,7 @@
 using System.Net.Http.Json;
-using PlanMeisterWeb.Models;
+using PlanMeisterShared.Models;
 
-namespace PlanMeisterWeb.Service;
+namespace PlanMeisterShared.Service;
 
 public class EmployeeService
 {

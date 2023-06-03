@@ -17,4 +17,16 @@
     <ProjectReference Include="..\PlanMeisterShared\PlanMeisterShared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Shared\MainLayout.razor" />
+    <_ContentIncludedByDefault Remove="Shared\NavMenu.razor" />
+    <_ContentIncludedByDefault Remove="Shared\SurveyPrompt.razor" />
+    <_ContentIncludedByDefault Remove="Pages\AddAppointment.razor" />
+    <_ContentIncludedByDefault Remove="Pages\AppointmentDetails.razor" />
+    <_ContentIncludedByDefault Remove="Pages\AppointmentPage.razor" />
+    <_ContentIncludedByDefault Remove="Pages\EmployeePage.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Index.razor" />
+    <_ContentIncludedByDefault Remove="Pages\WeekSchedulePage.razor" />
+  </ItemGroup>
+
 </Project>

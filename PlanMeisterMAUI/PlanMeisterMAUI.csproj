@@ -53,4 +53,9 @@
 	  <ProjectReference Include="..\PlanMeisterShared\PlanMeisterShared.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <PackageReference Include="Blazorise.Bootstrap" Version="1.2.3" />
+	  <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.2.3" />
+	</ItemGroup>
+
 </Project>
