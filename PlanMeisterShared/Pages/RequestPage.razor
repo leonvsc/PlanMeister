@@ -1,0 +1,83 @@
+@page "/request"
+@using PlanMeisterShared.Models
+@using PlanMeisterShared.Service
+@inject RequestService RequestService
+@inject EmployeeService EmployeeService
+
+<PageTitle>Request</PageTitle>
+
+<h1>Request</h1>
+
+@if (Requests == null)
+{
+    <h3>Requests are loading</h3>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Employee</th>
+            <th>Request Type</th>
+            <th>Date From</th>
+            <th>Date Till</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var request in Requests)
+        {
+            <tr>
+                <td>@request.EmployeeName</td>
+                <td>@request.RequestType</td>
+                <td>@request.DateTimeFrom</td>
+                <td>@request.DateTimeTill</td>
+                <td>@request.RequestStatus</td>
+                <td>
+                    <button class="btn btn-primary" @onclick="() => EditRequest(request)">Edit</button>
+                    <button class="btn btn-danger" @onclick="() => DeleteRequest(request)">Delete</button>
+                    <button class="btn btn-success" @onclick="() => MarkRequestAsCompleted(request)">Mark as Completed</button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code
+{
+    private IEnumerable<Request> Requests { get; set; }
+    private Employee Employee { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Requests = await RequestService.GetRequests();
+
+        foreach ( var request in Requests)
+        {
+            request.EmployeeName = await GetEmployeeName(request.EmployeeId);
+        }
+    }
+
+    private void EditRequest(Request request)
+    {
+        
+    }
+
+    private void DeleteRequest(Request request)
+    {
+        
+    }
+
+    private void MarkRequestAsCompleted(Request request)
+    {
+        
+    }
+
+    private async Task<string> GetEmployeeName(int employeeId)
+    {
+        Employee = await EmployeeService.GetEmployeeById(employeeId);
+        return Employee.Name;
+    }
+}

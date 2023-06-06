@@ -24,5 +24,6 @@ builder.Services.AddScoped<EmployeeService, EmployeeService>();
 builder.Services.AddScoped<AppointmentService, AppointmentService>();
 builder.Services.AddScoped<DayScheduleService, DayScheduleService>();
 builder.Services.AddScoped<WeekScheduleService, WeekScheduleService>();
+builder.Services.AddScoped<RequestService, RequestService>();
 
 await builder.Build().RunAsync();
