@@ -54,7 +54,7 @@
 }
 else
 {
-    <table class="table">
+    <table class="table mt-3">
         <thead>
         <tr>
             <th>Employee</th>
@@ -71,13 +71,14 @@ else
             <tr>
                 <td>@request.EmployeeName</td>
                 <td>@request.RequestType</td>
-                <td>@request.DateTimeFrom</td>
-                <td>@request.DateTimeTill</td>
+                <td>@request.DateTimeFrom.ToString("dd-MM-yyyy HH:mm")</td>
+                <td>@request.DateTimeTill.ToString("dd-MM-yyyy HH:mm")</td>
                 <td>@request.RequestStatus</td>
                 <td>
                     <button class="btn btn-primary" @onclick="() => EditRequest(request.RequestId)">Edit</button>
                     <button class="btn btn-danger" @onclick="() => DeleteRequest(request.RequestId)">Delete</button>
-                    <button class="btn btn-success" @onclick="() => MarkRequestAsCompleted(request)">Mark as Completed</button>
+                    <button class="btn btn-success" @onclick="() => MarkRequestAsAccepted(request.RequestId)">Mark as Accepted</button>
+                    <button class="btn btn-warning" @onclick="() => MarkRequestAsDeclined(request.RequestId)">Mark as Declined</button>
                 </td>
             </tr>
         }
@@ -117,9 +118,16 @@ else
         await JsRuntime.InvokeVoidAsync("location.reload");
     }
 
-    private void MarkRequestAsCompleted(Request request)
+    private async void MarkRequestAsAccepted(int requestId)
     {
-        
+        await RequestService.MarkAsAccepted(requestId);
+        await JsRuntime.InvokeVoidAsync("location.reload");
+    }
+    
+    private async void MarkRequestAsDeclined(int requestId)
+    {
+        await RequestService.MarkAsDeclined(requestId);
+        await JsRuntime.InvokeVoidAsync("location.reload");
     }
 
     private async Task<string> GetEmployeeName(int employeeId)
