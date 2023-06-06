@@ -32,6 +32,18 @@
     </ModalContent>
 </Modal>
 
+<Modal @ref="modalRefEditRequest">
+    <ModalContent Centered>
+        <ModalHeader>
+            <ModalTitle>Edit Request</ModalTitle>
+            <CloseButton/>
+        </ModalHeader>
+        <ModalBody>
+            <EditRequest RequestId="@selectedRequestId"></EditRequest>
+        </ModalBody>
+    </ModalContent>
+</Modal>
+
 <button class="btn btn-primary" @onclick="() => ShowAppointmentModal()">Add Appointment</button>
 <button class="btn btn-primary" @onclick="() => ShowRequestModal()">Add Request</button>
 
@@ -62,7 +74,7 @@ else
                 <td>@request.DateTimeTill</td>
                 <td>@request.RequestStatus</td>
                 <td>
-                    <button class="btn btn-primary" @onclick="() => EditRequest(request)">Edit</button>
+                    <button class="btn btn-primary" @onclick="() => EditRequest(request.RequestId)">Edit</button>
                     <button class="btn btn-danger" @onclick="() => DeleteRequest(request)">Delete</button>
                     <button class="btn btn-success" @onclick="() => MarkRequestAsCompleted(request)">Mark as Completed</button>
                 </td>
@@ -76,9 +88,11 @@ else
 {
     private IEnumerable<Request> Requests { get; set; }
     private Employee Employee { get; set; }
+    private int selectedRequestId;
     
     private Modal modalRefAppointment;
     private Modal modalRefRequest;
+    private Modal modalRefEditRequest;
 
     protected override async Task OnInitializedAsync()
     {
@@ -90,9 +104,10 @@ else
         }
     }
 
-    private void EditRequest(Request request)
+    private void EditRequest(int requestId)
     {
-        
+        selectedRequestId = requestId;
+        ShowEditRequestModal();
     }
 
     private void DeleteRequest(Request request)
@@ -119,5 +134,10 @@ else
     private Task ShowRequestModal()
     {
         return modalRefRequest.Show();
+    }
+    
+    private Task ShowEditRequestModal()
+    {
+        return modalRefEditRequest.Show();
     }
 }

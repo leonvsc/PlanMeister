@@ -37,4 +37,9 @@ public class RequestService
             throw;
         }
     }
+    
+    public async Task<Request?> GetRequestById(int requestId)
+    {
+        return await _httpClient.GetFromJsonAsync<Request>($"/api/Request/{requestId}");
+    }
 }
