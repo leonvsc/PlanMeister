@@ -13,5 +13,5 @@ public class Request
     public int EmployeeId { get; set; }
     public Employee? Employee { get; set; }
     
-    public string EmployeeName { get; set; }
+    public string? EmployeeName { get; set; }
 }

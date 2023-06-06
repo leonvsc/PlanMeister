@@ -1,0 +1,87 @@
+@page "/AddRequest"
+@using System.Text.Json
+@using System.Globalization
+@using System.Net.Http.Json
+@using PlanMeisterShared
+@using PlanMeisterShared.Enum
+@using PlanMeisterShared.Models
+@using PlanMeisterShared.Service
+@inject NavigationManager NavigationManager
+@inject EmployeeService EmployeeService
+@inject IJSRuntime JSRuntime
+
+
+<EditForm Model="Request" OnValidSubmit="HandleValidSubmit" OnInitialized="Initialize">
+    <div class="form-group">
+        <label for="request-type">Request Type</label>
+        <select id="request-type" class="form-control" @bind="@Request.RequestType" required>
+            @foreach (var value in Enum.GetValues(typeof(RequestType)))
+            {
+                <option value="@value">@value</option>
+            }
+        </select>
+        <ValidationMessage For="@(() => Request.RequestType)"/>
+    </div>
+    
+    <div class="form-group">
+        <label for="employee">Employee</label>
+        <select id="employee" class="form-control" @bind="@Request.EmployeeId" required>
+            <option>Maak uw keuze</option>
+            @foreach (var employee in Employees)
+            {
+                <option value="@employee.EmployeeId">@employee.Name</option>
+            }
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="date">From:</label>
+        <input TValue="DateTime" id="date" name="date" class="form-control" type="datetime-local" @bind="Request.DateTimeFrom"/>
+        
+        <label for="time">Until:</label>
+        <input TValue="DateTime" id="time" name="time" class="form-control" type="datetime-local" @bind="Request.DateTimeTill"/>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Add Request</button>
+</EditForm>
+
+@code
+{
+    private Request Request = new Request()
+    {
+        // Zet de actuele datum en tijd in het formulier.
+        DateTimeFrom = DateTime.Now,
+        DateTimeTill = DateTime.Now
+    };
+
+    private IEnumerable<Employee> Employees { get; set; } = new List<Employee>();
+    
+    private async Task AddRequestToApi()
+    {
+        var httpClient = new HttpClient();
+
+        var addRequest = new Request()
+        {
+            RequestType = Request.RequestType,
+            DateTimeFrom = Request.DateTimeFrom,
+            DateTimeTill = Request.DateTimeTill,
+            RequestStatus = RequestStatus.Processing,
+            EmployeeId = Request.EmployeeId
+        };
+        
+        var response = await httpClient.PostAsJsonAsync("http://localhost:5175/api/Request", addRequest);
+        response.EnsureSuccessStatusCode();
+        
+        await JSRuntime.InvokeVoidAsync("location.reload");
+    }
+    
+    private async void HandleValidSubmit()
+    {
+        await AddRequestToApi();
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        Employees = await EmployeeService.GetEmployees();
+    }
+}

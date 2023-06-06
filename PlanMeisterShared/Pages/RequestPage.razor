@@ -8,6 +8,33 @@
 
 <h1>Request</h1>
 
+<Modal @ref="modalRefAppointment">
+    <ModalContent Centered>
+        <ModalHeader>
+            <ModalTitle>Add Appointment</ModalTitle>
+            <CloseButton/>
+        </ModalHeader>
+        <ModalBody>
+            <AddAppointment></AddAppointment>
+        </ModalBody>
+    </ModalContent>
+</Modal>
+
+<Modal @ref="modalRefRequest">
+    <ModalContent Centered>
+        <ModalHeader>
+            <ModalTitle>Add Request</ModalTitle>
+            <CloseButton/>
+        </ModalHeader>
+        <ModalBody>
+            <AddRequest></AddRequest>
+        </ModalBody>
+    </ModalContent>
+</Modal>
+
+<button class="btn btn-primary" @onclick="() => ShowAppointmentModal()">Add Appointment</button>
+<button class="btn btn-primary" @onclick="() => ShowRequestModal()">Add Request</button>
+
 @if (Requests == null)
 {
     <h3>Requests are loading</h3>
@@ -49,6 +76,9 @@ else
 {
     private IEnumerable<Request> Requests { get; set; }
     private Employee Employee { get; set; }
+    
+    private Modal modalRefAppointment;
+    private Modal modalRefRequest;
 
     protected override async Task OnInitializedAsync()
     {
@@ -79,5 +109,15 @@ else
     {
         Employee = await EmployeeService.GetEmployeeById(employeeId);
         return Employee.Name;
+    }
+    
+    private Task ShowAppointmentModal()
+    {
+        return modalRefAppointment.Show();
+    }
+    
+    private Task ShowRequestModal()
+    {
+        return modalRefRequest.Show();
     }
 }
