@@ -42,4 +42,9 @@ public class RequestService
     {
         return await _httpClient.GetFromJsonAsync<Request>($"/api/Request/{requestId}");
     }
+
+    public async Task DeleteRequest(int requestId)
+    {
+        await _httpClient.DeleteAsync($"api/Request/{requestId}");
+    }
 }

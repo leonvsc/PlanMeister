@@ -3,6 +3,7 @@
 @using PlanMeisterShared.Service
 @inject RequestService RequestService
 @inject EmployeeService EmployeeService
+@inject IJSRuntime JsRuntime
 
 <PageTitle>Request</PageTitle>
 
@@ -75,7 +76,7 @@ else
                 <td>@request.RequestStatus</td>
                 <td>
                     <button class="btn btn-primary" @onclick="() => EditRequest(request.RequestId)">Edit</button>
-                    <button class="btn btn-danger" @onclick="() => DeleteRequest(request)">Delete</button>
+                    <button class="btn btn-danger" @onclick="() => DeleteRequest(request.RequestId)">Delete</button>
                     <button class="btn btn-success" @onclick="() => MarkRequestAsCompleted(request)">Mark as Completed</button>
                 </td>
             </tr>
@@ -110,9 +111,10 @@ else
         ShowEditRequestModal();
     }
 
-    private void DeleteRequest(Request request)
+    private async void DeleteRequest(int requestId)
     {
-        
+        await RequestService.DeleteRequest(requestId);
+        await JsRuntime.InvokeVoidAsync("location.reload");
     }
 
     private void MarkRequestAsCompleted(Request request)
