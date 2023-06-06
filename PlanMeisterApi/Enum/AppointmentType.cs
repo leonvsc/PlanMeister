@@ -2,8 +2,8 @@ namespace PlanMeisterApi.Enum;
 
 public enum AppointmentType
 {
-    Ochtenddienst,
-    Avonddienst,
-    Nachtdienst
+    MorningShift,
+    EveningShift,
+    NightShift
     
 }

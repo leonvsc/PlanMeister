@@ -39,7 +39,7 @@ public class SeedHelper
                 AppointmentId = 1,
                 Title = "Ziggo Playout",
                 Description = "Ziggo Playout Ochtenddienst",
-                Type = AppointmentType.Ochtenddienst,
+                Type = AppointmentType.MorningShift,
                 StartDateTime = new DateTime(2023, 4, 1,07,45,00),
                 EndDateTime = new DateTime(2023,4,1,16,00,00),
                 Billable = true,
@@ -52,7 +52,7 @@ public class SeedHelper
                 AppointmentId = 2,
                 Title = "Ziggo Playout",
                 Description = "Ziggo Playout Avonddienst",
-                Type = AppointmentType.Avonddienst,
+                Type = AppointmentType.EveningShift,
                 StartDateTime = new DateTime(2023, 4, 1,15,45,00),
                 EndDateTime = new DateTime(2023,4,2,00,00,00),
                 Billable = true,
@@ -65,7 +65,7 @@ public class SeedHelper
                 AppointmentId = 3,
                 Title = "Ziggo Playout",
                 Description = "Ziggo Playout Nachtdienst",
-                Type = AppointmentType.Nachtdienst,
+                Type = AppointmentType.NightShift,
                 StartDateTime = new DateTime(2023, 4, 1,23,45,00),
                 EndDateTime = new DateTime(2023,4,2,08,00,00),
                 Billable = true,
@@ -148,33 +148,30 @@ public class SeedHelper
             {
                 RequestId = 1,
                 EmployeeId = 1,
-                RequestType = RequestType.Vakantie,
-                DateFrom = "01-04-2023",
-                DateTill = "10-04-2023",
-                TimeFrom = "00:00",
-                TimeTill = "23:59"
+                RequestType = RequestType.Vacation,
+                DateTimeFrom = new DateTime(2023,04,01),
+                DateTimeTill = new DateTime(2023,04,10),
+                RequestStatus = RequestStatus.Processing
             },
 
             new Request()
             {
                 RequestId = 2,
                 EmployeeId = 2,
-                RequestType = RequestType.Vakantie,
-                DateFrom = "01-04-2023",
-                DateTill = "10-04-2023",
-                TimeFrom = "00:00",
-                TimeTill = "23:59"
+                RequestType = RequestType.Vacation,
+                DateTimeFrom = new DateTime(2023,04,01),
+                DateTimeTill = new DateTime(2023,04,10),
+                RequestStatus = RequestStatus.Processing
             },
 
             new Request()
             {
                 RequestId = 3,
                 EmployeeId = 3,
-                RequestType = RequestType.Vakantie,
-                DateFrom = "01-04-2023",
-                DateTill = "10-04-2023",
-                TimeFrom = "00:00",
-                TimeTill = "23:59"
+                RequestType = RequestType.Vacation,
+                DateTimeFrom = new DateTime(2023,04,01),
+                DateTimeTill = new DateTime(2023,04,10),
+                RequestStatus = RequestStatus.Processing
             },
         };
 

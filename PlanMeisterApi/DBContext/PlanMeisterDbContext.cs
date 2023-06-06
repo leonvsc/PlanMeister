@@ -60,6 +60,11 @@ public class PlanMeisterDbContext : DbContext
             .Property(d => d.Type)
             .HasConversion(new EnumToStringConverter<AppointmentType>());
         
+        // Convert RequestStatus Enum to String
+        modelBuilder.Entity<Request>()
+            .Property(d => d.RequestStatus)
+            .HasConversion(new EnumToStringConverter<RequestStatus>());
+        
         modelBuilder.Entity<Appointment>().HasData(SeedHelper.GetAppointmentSeeds());
         modelBuilder.Entity<Employee>().HasData(SeedHelper.GetEmployeeSeeds());
         modelBuilder.Entity<DaySchedule>().HasData(SeedHelper.GetDaySeeds());
