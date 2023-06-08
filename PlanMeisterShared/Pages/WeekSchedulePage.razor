@@ -7,17 +7,43 @@
 
 <PageTitle>WeekSchedule</PageTitle>
 
+<Modal @ref="modalRefAppointment">
+    <ModalContent Centered>
+        <ModalHeader>
+            <ModalTitle>Add Appointment</ModalTitle>
+            <CloseButton/>
+        </ModalHeader>
+        <ModalBody>
+            <AddAppointment></AddAppointment>
+        </ModalBody>
+    </ModalContent>
+</Modal>
+
 <h3>WeekSchedule</h3>
+
+<div class="d-flex">
+    <AuthorizeView Roles="Planner">
+        <button class="btn btn-primary me-2" @onclick="() => ShowAppointmentModal()">Add Appointment</button>
+    </AuthorizeView>
+    <a href="/">
+        <button class="btn btn-primary">Back home</button>
+    </a>
+</div>
 
 <div class="form-group">
     <label for="weekNumberInput">Week Number:</label>
-    <input id="weekNumberInput" class="form-control" type="number" @bind="@WeekNumber"/>
-    <button class="btn btn-primary" @onclick="@LoadAppointments">Load Appointments</button>
+    <div class="input-group">
+        <input id="weekNumberInput" class="form-control" type="number" @bind="@WeekNumber"/>
+        <div class="input-group-append">
+            <button class="btn btn-primary" @onclick="@LoadAppointments">Load Appointments</button>
+        </div>
+    </div>
 </div>
+
 
 @if (_appointments != null && Employees != null)
 {
-    if (_appointments.Any())
+    @if (_appointments.Any())
     {
         <div class="table-responsive">
             <table class="table table-bordered">
@@ -38,22 +64,19 @@
                         @foreach (var day in _daysOfWeek)
                         {
                             <td>
-                                @foreach (var appointment in _appointments)
+                                @foreach (var appointment in _appointments.Where(a => a.EmployeeId == employee.EmployeeId && a.StartDateTime.DayOfWeek.ToString() == day))
                                 {
-                                    @if (appointment.EmployeeId == employee.EmployeeId && appointment.StartDateTime.DayOfWeek.ToString() == day)
-                                    {
-                                        <div>@appointment.Title</div>
-                                        <div>@appointment.Type</div>
+                                    <div>@appointment.Title</div>
+                                    <div>@appointment.Type</div>
+                                    <AuthorizeView>
                                         <a href="/AppointmentDetails?appointmentid=@appointment.AppointmentId">Show Details</a>
-                                    }
+                                    </AuthorizeView>
                                 }
                             </td>
                         }
                     </tr>
                 }
                 </tbody>
-
-
             </table>
         </div>
     }
@@ -71,6 +94,7 @@ else
 {
     private readonly List<string> _daysOfWeek = new() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
     private IEnumerable<Employee> Employees { get; set; }
+    private Modal modalRefAppointment;
 
 
     private int WeekNumber { get; set; }
@@ -85,5 +109,10 @@ else
     protected override async Task OnInitializedAsync()
     {
         Employees = await EmployeeService.GetEmployees();
+    }
+
+    private Task ShowAppointmentModal()
+    {
+        return modalRefAppointment.Show();
     }
 }

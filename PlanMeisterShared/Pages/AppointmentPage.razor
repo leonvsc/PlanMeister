@@ -2,6 +2,7 @@
 @using PlanMeisterShared.Service
 @using PlanMeisterShared.Models
 @inject AppointmentService AppointmentService
+@inject EmployeeService EmployeeService
 
 <PageTitle>Appointment</PageTitle>
 
@@ -19,6 +20,14 @@
 
 
 <h1>Appointments</h1>
+<div class="d-flex">
+    <button class="btn btn-primary mb-3 me-2" @onclick="() => ShowModal()">Add Appointment</button>
+    <a href="/">
+        <button class="btn btn-primary">Back home</button>
+    </a>
+</div>
+
+
 
 @if (Appointments == null)
 {
@@ -26,23 +35,51 @@
 }
 else
 {
-    <div>
+    @if (Appointments == null)
+    {
+        <h3>Appointments are loading</h3>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Employee</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Start Date/Time</th>
+                    <th>End Date/Time</th>
+                    <th>Billable</th>
+                    <th>Details</th>
+                </tr>
+                </thead>
+                <tbody>
+                    @foreach (var appointment in Appointments)
+                    {
+                        <tr>
+                            <td>@appointment.EmployeeName</td>
+                            <td>@appointment.Title</td>
+                            <td>@appointment.Description</td>
+                            <td>@appointment.Type</td>
+                            <td>@appointment.StartDateTime.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td>@appointment.EndDateTime.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td>@(appointment.Billable ? "Yes" : "No")</td>
+                            <td><a href="/AppointmentDetails?appointmentid=@appointment.AppointmentId">Show Details</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
 
-        @foreach (var appointment in Appointments)
-        {
-            <div>
-                <h4>@appointment.Title</h4>
-                <p>@appointment.Description</p>
-            </div>
-        }
-    </div>
 }
-
-<Button Color="Color.Primary" Clicked="@ShowModal">Add Appointment</Button>
 
 @code
 {
-    public IEnumerable<Appointment> Appointments { get; set; }
+    private IEnumerable<Appointment> Appointments { get; set; }
+    private Employee Employee { get; set; }
 
     private Modal modalRef;
 
@@ -50,6 +87,17 @@ else
     protected override async Task OnInitializedAsync()
     {
         Appointments = await AppointmentService.GetAppointments();
+        
+        foreach ( var appointment in Appointments)
+        {
+            appointment.EmployeeName = await GetEmployeeName(appointment.EmployeeId);
+        }
+    }
+    
+    private async Task<string> GetEmployeeName(int employeeId)
+    {
+        Employee = await EmployeeService.GetEmployeeById(employeeId);
+        return Employee.Name;
     }
 
     private Task ShowModal()
