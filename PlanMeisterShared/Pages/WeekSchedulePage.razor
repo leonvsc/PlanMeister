@@ -68,9 +68,7 @@
                                 {
                                     <div>@appointment.Title</div>
                                     <div>@appointment.Type</div>
-                                    <AuthorizeView>
-                                        <a href="/AppointmentDetails?appointmentid=@appointment.AppointmentId">Show Details</a>
-                                    </AuthorizeView>
+                                    <a href="/AppointmentDetails?appointmentid=@appointment.AppointmentId">Show Details</a>
                                 }
                             </td>
                         }
