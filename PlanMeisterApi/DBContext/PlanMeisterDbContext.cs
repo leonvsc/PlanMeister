@@ -16,6 +16,7 @@ public class PlanMeisterDbContext : DbContext
     public DbSet<DaySchedule> DaySchedules { get; set; }
     public DbSet<Request> Requests { get; set; }
     public DbSet<WeekSchedule> WeekSchedules { get; set; }
+    public DbSet<HourPreference> HourPreferences { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -70,5 +71,6 @@ public class PlanMeisterDbContext : DbContext
         modelBuilder.Entity<DaySchedule>().HasData(SeedHelper.GetDaySeeds());
         modelBuilder.Entity<Request>().HasData(SeedHelper.GetRequestSeeds());
         modelBuilder.Entity<WeekSchedule>().HasData(SeedHelper.GetScheduleSeeds());
+        modelBuilder.Entity<HourPreference>().HasData(SeedHelper.GetHourPreferenceSeeds());
     }
 }

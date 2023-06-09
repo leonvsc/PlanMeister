@@ -30,6 +30,9 @@ builder.Services.AddScoped<IRequestService, RequestService>();
 builder.Services.AddScoped<IWeekScheduleRepository, WeekScheduleRepository>();
 builder.Services.AddScoped<IWeekScheduleService, WeekScheduleService>();
 
+builder.Services.AddScoped<IHourPreferenceRepository, HourPreferenceRepository>();
+builder.Services.AddScoped<IHourPreferenceService, HourPreferenceService>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", builder => builder

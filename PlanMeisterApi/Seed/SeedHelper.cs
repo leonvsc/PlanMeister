@@ -178,5 +178,37 @@ public class SeedHelper
         return request;
     }
 
+    public static IEnumerable<HourPreference> GetHourPreferenceSeeds()
+    {
+        var hourPreference = new List<HourPreference>()
+        {
+            new HourPreference()
+            {
+                HourPreferenceId = 1,
+                WeekNumber = 23,
+                AmountOfHours = 32,
+                EmployeeId = 1
+            },
+            
+            new HourPreference()
+            {
+                HourPreferenceId = 2,
+                WeekNumber = 23,
+                AmountOfHours = 40,
+                EmployeeId = 2
+            },
+            
+            new HourPreference()
+            {
+                HourPreferenceId = 3,
+                WeekNumber = 23,
+                AmountOfHours = 24,
+                EmployeeId = 3
+            }
+        };
+
+        return hourPreference;
+    }
+
 
 }
