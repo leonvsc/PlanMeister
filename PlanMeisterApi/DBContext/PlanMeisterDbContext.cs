@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PlanMeisterApi.Enum;
+using PlanMeisterShared.Enum;
 
 namespace PlanMeisterApi.Models;
 
@@ -65,6 +66,11 @@ public class PlanMeisterDbContext : DbContext
         modelBuilder.Entity<Request>()
             .Property(d => d.RequestStatus)
             .HasConversion(new EnumToStringConverter<RequestStatus>());
+        
+        // Convert HourPreferenceStatus Enum to String
+        modelBuilder.Entity<HourPreference>()
+            .Property(d => d.HourPreferenceStatus)
+            .HasConversion(new EnumToStringConverter<HourPreferenceStatus>());
         
         modelBuilder.Entity<Appointment>().HasData(SeedHelper.GetAppointmentSeeds());
         modelBuilder.Entity<Employee>().HasData(SeedHelper.GetEmployeeSeeds());

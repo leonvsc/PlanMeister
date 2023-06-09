@@ -1,6 +1,6 @@
 using PlanMeisterShared.Enum;
 
-namespace PlanMeisterApi.Models;
+namespace PlanMeisterShared.Models;
 
 public class HourPreference
 {

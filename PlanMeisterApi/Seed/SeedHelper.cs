@@ -1,4 +1,5 @@
 using PlanMeisterApi.Enum;
+using PlanMeisterShared.Enum;
 
 namespace PlanMeisterApi.Models;
 
@@ -187,6 +188,7 @@ public class SeedHelper
                 HourPreferenceId = 1,
                 WeekNumber = 23,
                 AmountOfHours = 32,
+                HourPreferenceStatus = HourPreferenceStatus.Processing,
                 EmployeeId = 1
             },
             
@@ -195,6 +197,7 @@ public class SeedHelper
                 HourPreferenceId = 2,
                 WeekNumber = 23,
                 AmountOfHours = 40,
+                HourPreferenceStatus = HourPreferenceStatus.Processing,
                 EmployeeId = 2
             },
             
@@ -203,6 +206,7 @@ public class SeedHelper
                 HourPreferenceId = 3,
                 WeekNumber = 23,
                 AmountOfHours = 24,
+                HourPreferenceStatus = HourPreferenceStatus.Processing,
                 EmployeeId = 3
             }
         };
