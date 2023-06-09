@@ -1,0 +1,123 @@
+@page "/EditAppointment"
+@using System.Text.Json
+@using System.Globalization
+@using System.Net.Http.Json
+@using PlanMeisterShared
+@using PlanMeisterShared.Enum
+@using PlanMeisterShared.Models
+@using PlanMeisterShared.Service
+@inject NavigationManager NavigationManager
+@inject DayScheduleService DayScheduleService
+@inject EmployeeService EmployeeService
+@inject AppointmentService AppointmentService
+@inject IJSRuntime JsRuntime
+
+<EditForm Model="Appointment" OnValidSubmit="HandleValidSubmit">
+    <div class="form-group">
+        <label for="title">Title:</label>
+        <input id="title" name="title" class="form-control" @bind="@Appointment.Title" required />
+        <ValidationMessage For="@(() => Appointment.Title)"/>
+    </div>
+    
+    <div class="form-group">
+        <label for="description">Description:</label>
+        <input id="description" name="description" class="form-control" @bind="@Appointment.Description" required />
+        <ValidationMessage For="@(() => Appointment.Description)"/>
+    </div>
+    
+    <div class="form-group">
+        <label for="appointment-type">Appointment Type</label>
+        <select id="appointment-type" class="form-control" @bind="@Appointment.Type" required>
+            @foreach (var value in Enum.GetValues(typeof(AppointmentType)))
+            {
+                <option value="@value">@value</option>
+            }
+        </select>
+        <ValidationMessage For="@(() => Appointment.Type)"/>
+    </div>
+    
+    <div class="form-group">
+        <label for="employee">Employee</label>
+        <select id="employee" class="form-control" required @bind="@Appointment.EmployeeId">
+            <option>Maak uw keuze</option>
+            @foreach (var employee in Employees)
+            {
+                <option value="@employee.EmployeeId">@employee.Name</option>
+            }
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="date">From:</label>
+        <input TValue="DateTime" id="date" name="date" class="form-control" type="datetime-local" @bind="Appointment.StartDateTime"/>
+        
+        <label for="time">Until:</label>
+        <input TValue="DateTime" id="time" name="time" class="form-control" type="datetime-local" @bind="Appointment.EndDateTime"/>
+    </div>
+    
+    <Check TValue="bool" @bind-Checked="@Appointment.Billable">Billable?</Check>
+
+    <button type="submit" class="btn btn-primary">Edit Appointment</button>
+</EditForm>
+
+@code
+{
+    private Appointment Appointment = new Appointment()
+    {
+        // Zet de actuele datum en tijd in het formulier.
+        StartDateTime = DateTime.Now,
+        EndDateTime = DateTime.Now
+    };
+
+    private IEnumerable<Employee> Employees { get; set; } = new List<Employee>();
+    
+    [Parameter]
+    public int AppointmentId { get; set; }
+    
+    private bool isLoaded = false;
+
+    private async Task<int> GetDayScheduleIdByDate(DateTime date)
+    {
+        return await DayScheduleService.GetDayScheduleIdByDate(date);
+    }
+
+    private async Task AddAppointmentToApi()
+    {
+        var httpClient = new HttpClient();
+
+        var dayScheduleId = await GetDayScheduleIdByDate(Appointment.StartDateTime);
+        
+        var addAppointment = new Appointment
+        {
+            AppointmentId = AppointmentId,
+            Title = Appointment.Title,
+            Description = Appointment.Description,
+            Type = Appointment.Type,
+            StartDateTime = Appointment.StartDateTime,
+            EndDateTime = Appointment.EndDateTime,
+            Billable = Appointment.Billable,
+            DayScheduleId = dayScheduleId,
+            EmployeeId = Appointment.EmployeeId
+        };
+        
+        var response = await httpClient.PutAsJsonAsync($"http://localhost:5175/api/Appointment/{AppointmentId}", addAppointment);
+        response.EnsureSuccessStatusCode();
+
+        await JsRuntime.InvokeVoidAsync("location.reload");
+    }
+    
+    private async void HandleValidSubmit()
+    {
+        await AddAppointmentToApi();
+    }
+    
+    protected override async Task OnParametersSetAsync()
+    {
+        if (AppointmentId != 0 && !isLoaded)
+        {
+            Appointment = await AppointmentService.GetAppointmentById(AppointmentId);
+            Employees = await EmployeeService.GetEmployees();
+            isLoaded = true;
+        }
+    }
+}

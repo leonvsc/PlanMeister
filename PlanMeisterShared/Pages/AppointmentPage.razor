@@ -3,10 +3,11 @@
 @using PlanMeisterShared.Models
 @inject AppointmentService AppointmentService
 @inject EmployeeService EmployeeService
+@inject IJSRuntime JsRuntime
 
 <PageTitle>Appointment</PageTitle>
 
-<Modal @ref="modalRef">
+<Modal @ref="modalRefAddAppointment">
     <ModalContent Centered>
         <ModalHeader>
             <ModalTitle>Add Appointment</ModalTitle>
@@ -18,10 +19,22 @@
     </ModalContent>
 </Modal>
 
+<Modal @ref="modalRefEditAppointment">
+    <ModalContent Centered>
+        <ModalHeader>
+            <ModalTitle>Edit Appointment</ModalTitle>
+            <CloseButton/>
+        </ModalHeader>
+        <ModalBody>
+            <EditAppointment AppointmentId="@selectedAppointmentId"></EditAppointment>
+        </ModalBody>
+    </ModalContent>
+</Modal>
+
 
 <h1>Appointments</h1>
 <div class="d-flex">
-    <button class="btn btn-primary mb-3 me-2" @onclick="() => ShowModal()">Add Appointment</button>
+    <button class="btn btn-primary mb-3 me-2" @onclick="() => ShowModalAddAppointment()">Add Appointment</button>
     <a href="/">
         <button class="btn btn-primary">Back home</button>
     </a>
@@ -53,6 +66,7 @@ else
                     <th>End Date/Time</th>
                     <th>Billable</th>
                     <th>Details</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -67,6 +81,10 @@ else
                             <td>@appointment.EndDateTime.ToString("yyyy-MM-dd HH:mm")</td>
                             <td>@(appointment.Billable ? "Yes" : "No")</td>
                             <td><a href="/AppointmentDetails?appointmentid=@appointment.AppointmentId">Show Details</a></td>
+                            <td>
+                            <button class="btn btn-primary" @onclick="() => EditAppointment(appointment.AppointmentId)">Edit</button>
+                            <button class="btn btn-danger" @onclick="() => DeleteAppointment(appointment.AppointmentId)">Delete</button>
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -80,8 +98,10 @@ else
 {
     private IEnumerable<Appointment> Appointments { get; set; }
     private Employee Employee { get; set; }
+    private int selectedAppointmentId;
 
-    private Modal modalRef;
+    private Modal modalRefAddAppointment;
+    private Modal modalRefEditAppointment;
 
 
     protected override async Task OnInitializedAsync()
@@ -100,13 +120,25 @@ else
         return Employee.Name;
     }
 
-    private Task ShowModal()
+    private Task ShowModalAddAppointment()
     {
-        return modalRef.Show();
+        return modalRefAddAppointment.Show();
+    }
+    
+    private Task ShowModalEditAppointment()
+    {
+        return modalRefEditAppointment.Show();
     }
 
-    private Task HideModal()
+    private void EditAppointment(int appointmentId)
     {
-        return modalRef.Hide();
+        selectedAppointmentId = appointmentId;
+        ShowModalEditAppointment();
+    }
+
+    private async void DeleteAppointment(int appointmentId)
+    {
+        await AppointmentService.DeleteAppointment(appointmentId);
+        await JsRuntime.InvokeVoidAsync("location.reload");
     }
 }

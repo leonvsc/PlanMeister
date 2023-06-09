@@ -65,9 +65,14 @@ public class AppointmentService
         }
     }
 
-    public async Task<Appointment?> GetAppointmentById(string appointmentId)
+    public async Task<Appointment?> GetAppointmentById(int appointmentId)
     {
         return await _httpClient.GetFromJsonAsync<Appointment>($"api/Appointment/{appointmentId}");
+    }
+    
+    public async Task DeleteAppointment(int appointmentId)
+    {
+        await _httpClient.DeleteAsync($"api/Appointment/{appointmentId}");
     }
 
 }

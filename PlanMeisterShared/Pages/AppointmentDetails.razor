@@ -43,7 +43,7 @@ else
         var queryParam = HttpUtility.ParseQueryString(uri.Query);
         AppointmentId = queryParam["appointmentid"];
 
-        Appointment = await AppointmentService.GetAppointmentById(AppointmentId);
+        Appointment = await AppointmentService.GetAppointmentById(int.Parse(AppointmentId));
         Employee = await EmployeeService.GetEmployeeById(Appointment.EmployeeId);
     }
 }
