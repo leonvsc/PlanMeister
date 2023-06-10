@@ -26,7 +26,7 @@
     
     <div class="form-group">
         <label for="employee">Employee</label>
-        <select id="employee" class="form-control" @bind="@Request.EmployeeId" required>
+        <select id="employee" class="form-control form-select" @bind="@Request.EmployeeId" required>
             <option>Maak uw keuze</option>
             @foreach (var employee in Employees)
             {

@@ -1,7 +1,6 @@
 @page "/request"
 @using PlanMeisterShared.Models
 @using PlanMeisterShared.Service
-@using Microsoft.AspNetCore.Authorization
 @inject RequestService RequestService
 @inject EmployeeService EmployeeService
 @inject IJSRuntime JsRuntime
@@ -46,6 +45,21 @@
     </ModalContent>
 </Modal>
 
+<div class="d-flex mb-2 form-group">
+    <select class="form-control form-select me-2" @bind="@selectedEmployeeId">
+        <option value="0">All Employees</option>
+        @foreach (var employee in Employees)
+        {
+            <option value="@employee.EmployeeId">@employee.Name</option>
+        }
+    </select>
+    <button class="btn btn-primary me-2" @onclick="FilterRequests">Filter</button>
+    @if (isFiltered)
+    {
+        <button class="btn btn-secondary" @onclick="ClearFilter">Clear</button>
+    }
+</div>
+
 <div class="d-flex">
     <AuthorizeView Roles="Planner">
         <button class="btn btn-primary me-2" @onclick="() => ShowAppointmentModal()">Add Appointment</button>
@@ -62,7 +76,7 @@
 {
     <h3>Requests are loading</h3>
 }
-else
+else if (Requests.Any())
 {
     <table class="table mt-3">
         <thead>
@@ -97,12 +111,26 @@ else
         </tbody>
     </table>
 }
-
-@code
+else
 {
+    <div>
+        @if (isFiltered)
+        {
+            <p>No requests found for the selected employee.</p>
+        }
+        else
+        {
+            <p>No requests available.</p>
+        }
+    </div>
+}
+
+@code {
     private IEnumerable<Request> Requests { get; set; }
-    private Employee Employee { get; set; }
+    private IEnumerable<Employee> Employees { get; set; } = new List<Employee>();
+    private int selectedEmployeeId;
     private int selectedRequestId;
+    private bool isFiltered;
 
     private Modal modalRefAppointment;
     private Modal modalRefRequest;
@@ -111,6 +139,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         Requests = await RequestService.GetRequests();
+        Employees = await EmployeeService.GetEmployees();
 
         foreach (var request in Requests)
         {
@@ -144,8 +173,36 @@ else
 
     private async Task<string> GetEmployeeName(int employeeId)
     {
-        Employee = await EmployeeService.GetEmployeeById(employeeId);
-        return Employee.Name;
+        var employee = await EmployeeService.GetEmployeeById(employeeId);
+        return employee.Name;
+    }
+
+    private async Task FilterRequests()
+    {
+        if (selectedEmployeeId != 0)
+        {
+            Requests = await RequestService.GetRequestsByEmployee(selectedEmployeeId);
+            foreach (var request in Requests)
+            {
+                request.EmployeeName = await GetEmployeeName(request.EmployeeId);
+            }
+            isFiltered = true;
+        }
+        else
+        {
+            await ClearFilter();
+        }
+    }
+
+    private async Task ClearFilter()
+    {
+        selectedEmployeeId = 0;
+        Requests = await RequestService.GetRequests();
+        foreach (var request in Requests)
+        {
+            request.EmployeeName = await GetEmployeeName(request.EmployeeId);
+        }
+        isFiltered = false;
     }
 
     private Task ShowAppointmentModal()
@@ -162,4 +219,5 @@ else
     {
         return modalRefEditRequest.Show();
     }
+
 }

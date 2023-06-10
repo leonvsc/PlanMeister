@@ -28,7 +28,7 @@
     
     <div class="form-group">
         <label for="appointment-type">Appointment Type</label>
-        <select id="appointment-type" class="form-control" @bind="@Appointment.Type" required>
+        <select id="appointment-type" class="form-control form-select" @bind="@Appointment.Type" required>
             @foreach (var value in Enum.GetValues(typeof(AppointmentType)))
             {
                 <option value="@value">@value</option>
@@ -39,7 +39,7 @@
     
     <div class="form-group">
         <label for="employee">Employee</label>
-        <select id="employee" class="form-control" required @bind="@Appointment.EmployeeId">
+        <select id="employee" class="form-control form-select" required @bind="@Appointment.EmployeeId">
             <option>Maak uw keuze</option>
             @foreach (var employee in Employees)
             {
