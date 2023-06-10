@@ -28,11 +28,11 @@ builder.Services
 
 // builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5175") });
-builder.Services.AddScoped<EmployeeService, EmployeeService>();
-builder.Services.AddScoped<AppointmentService, AppointmentService>();
-builder.Services.AddScoped<DayScheduleService, DayScheduleService>();
-builder.Services.AddScoped<WeekScheduleService, WeekScheduleService>();
-builder.Services.AddScoped<RequestService, RequestService>();
-builder.Services.AddScoped<HourPreferenceService, HourPreferenceService>();
+builder.Services.AddScoped<EmployeeService>();
+builder.Services.AddScoped<AppointmentService>();
+builder.Services.AddScoped<DayScheduleService>();
+builder.Services.AddScoped<WeekScheduleService>();
+builder.Services.AddScoped<RequestService>();
+builder.Services.AddScoped<HourPreferenceService>();
 
 await builder.Build().RunAsync();

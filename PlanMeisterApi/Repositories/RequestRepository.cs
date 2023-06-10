@@ -21,6 +21,13 @@ public class RequestRepository : IRequestRepository
     {
         return await _dbContext.Requests.ToListAsync();
     }
+    
+    public async Task<IEnumerable<Request>> GetRequestsByEmployee(int employeeId)
+    {
+        return await _dbContext.Requests
+            .Where(request => request.EmployeeId == employeeId)
+            .ToListAsync();
+    }
 
     public async Task AddRequest(Request request)
     {

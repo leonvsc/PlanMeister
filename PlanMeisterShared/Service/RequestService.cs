@@ -88,4 +88,30 @@ public class RequestService
             await _httpClient.PutAsJsonAsync($"/api/Request/{requestId}", addRequest);
         }
     }
+
+    public async Task<IEnumerable<Request>> GetRequestsByEmployee(int employeeId)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync($"/api/Request/ReadByEmployee/{employeeId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                {
+                    return Enumerable.Empty<Request>();
+                }
+                return await response.Content.ReadFromJsonAsync<IEnumerable<Request>>();
+            }
+            else
+            {
+                var message = await response.Content.ReadAsStringAsync();
+                throw new Exception(message);
+            }
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
 }

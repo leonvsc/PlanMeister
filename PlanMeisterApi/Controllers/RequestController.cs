@@ -36,6 +36,18 @@ namespace PlanMeisterApi.Controllers
             }
             return Ok(request);
         }
+        
+        [HttpGet("ReadByEmployee/{employeeId}")]
+        public async Task<ActionResult<IEnumerable<Request>>> ReadByEmployee(int employeeId)
+        {
+            var requests = await _requestService.GetRequestsByEmployee(employeeId);
+            if (requests == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(requests);
+        }
 
         [HttpPost]
         public async Task<ActionResult<Request>> PostRequest(Request request)

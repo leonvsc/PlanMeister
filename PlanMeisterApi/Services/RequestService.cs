@@ -22,6 +22,11 @@ public class RequestService : IRequestService
         return await _requestRepository.GetAllRequests();
     }
 
+    public async Task<IEnumerable<Request>> GetRequestsByEmployee(int employeeId)
+    {
+        return await _requestRepository.GetRequestsByEmployee(employeeId);
+    }
+
     public async Task AddRequest(Request request)
     {
         await _requestRepository.AddRequest(request);
