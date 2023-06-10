@@ -86,4 +86,30 @@ public class HourPreferenceService
             await _httpClient.PutAsJsonAsync($"/api/HourPreference/{hourPreferenceId}", addHourPreference);
         }
     }
+    
+    public async Task<IEnumerable<HourPreference>> GetHourPreferencesByEmployee(int employeeId)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync($"/api/HourPreference/ReadByEmployee/{employeeId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                {
+                    return Enumerable.Empty<HourPreference>();
+                }
+                return await response.Content.ReadFromJsonAsync<IEnumerable<HourPreference>>();
+            }
+            else
+            {
+                var message = await response.Content.ReadAsStringAsync();
+                throw new Exception(message);
+            }
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
 }

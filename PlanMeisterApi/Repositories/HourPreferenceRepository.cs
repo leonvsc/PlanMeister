@@ -21,6 +21,13 @@ public class HourPreferenceRepository : IHourPreferenceRepository
     {
         return await _dbContext.HourPreferences.ToListAsync();
     }
+    
+    public async Task<IEnumerable<HourPreference>> GetHourPreferencesByEmployee(int employeeId)
+    {
+        return await _dbContext.HourPreferences
+            .Where(hourPreference => hourPreference.EmployeeId == employeeId)
+            .ToListAsync();
+    }
 
     public async Task AddHourPreference(HourPreference hourPreference)
     {

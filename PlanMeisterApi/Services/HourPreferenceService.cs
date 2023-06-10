@@ -22,6 +22,11 @@ public class HourPreferenceService : IHourPreferenceService
         return await _hourPreferenceRepository.GetAllHourPreferences();
     }
 
+    public async Task<IEnumerable<HourPreference>> GetHourPreferencesByEmployee(int employeeId)
+    {
+        return await _hourPreferenceRepository.GetHourPreferencesByEmployee(employeeId);
+    }
+
     public async Task AddHourPreference(HourPreference hourPreference)
     {
         await _hourPreferenceRepository.AddHourPreference(hourPreference);

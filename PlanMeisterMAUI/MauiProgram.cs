@@ -40,10 +40,12 @@ public static class MauiProgram
 
 		// builder.Services.AddSingleton<WeatherForecastService>();
 		builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://5cb2-84-83-28-195.ngrok-free.app/") });
-		builder.Services.AddScoped<EmployeeService, EmployeeService>();
-		builder.Services.AddScoped<AppointmentService, AppointmentService>();
-		builder.Services.AddScoped<DayScheduleService, DayScheduleService>();
-		builder.Services.AddScoped<WeekScheduleService, WeekScheduleService>();
+		builder.Services.AddScoped<EmployeeService>();
+		builder.Services.AddScoped<AppointmentService>();
+		builder.Services.AddScoped<DayScheduleService>();
+		builder.Services.AddScoped<WeekScheduleService>();
+		builder.Services.AddScoped<RequestService>();
+		builder.Services.AddScoped<HourPreferenceService>();
 
 		return builder.Build();
 	}

@@ -36,6 +36,18 @@ namespace PlanMeisterApi.Controllers
             }
             return Ok(hourPreference);
         }
+        
+        [HttpGet("ReadByEmployee/{employeeId}")]
+        public async Task<ActionResult<IEnumerable<HourPreference>>> ReadByEmployee(int employeeId)
+        {
+            var requests = await _hourPreferenceService.GetHourPreferencesByEmployee(employeeId);
+            if (requests == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(requests);
+        }
 
         [HttpPost]
         public async Task<ActionResult<HourPreference>> PostHourPreference(HourPreference hourPreference)
