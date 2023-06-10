@@ -10,6 +10,7 @@
 @inject EmployeeService EmployeeService
 @inject RequestService RequestService
 @inject IJSRuntime JsRuntime
+@inject HttpClient HttpClient
 
 <EditForm Model="Request" OnValidSubmit="HandleValidSubmit">
     <div class="form-group">
@@ -60,7 +61,7 @@
 
     private async Task AddRequestToApi()
     {
-        var httpClient = new HttpClient();
+        var httpClient = HttpClient;
 
         var addRequest = new Request()
         {
@@ -72,7 +73,7 @@
             EmployeeId = Request.EmployeeId
         };
 
-        var response = await httpClient.PutAsJsonAsync($"http://localhost:5175/api/Request/{RequestId}", addRequest);
+        var response = await httpClient.PutAsJsonAsync($"/api/Request/{RequestId}", addRequest);
         response.EnsureSuccessStatusCode();
 
         await JsRuntime.InvokeVoidAsync("location.reload");

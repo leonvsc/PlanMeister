@@ -1,0 +1,163 @@
+@page "/hourpreference"
+@using PlanMeisterShared.Models
+@using PlanMeisterShared.Service
+@using Microsoft.AspNetCore.Authorization
+@inject HourPreferenceService HourPreferenceService
+@inject EmployeeService EmployeeService
+@inject IJSRuntime JsRuntime
+
+<PageTitle>Hour Preference</PageTitle>
+
+<h1>Hour Preference</h1>
+
+<Modal @ref="modalRefAppointment">
+    <ModalContent Centered>
+        <ModalHeader>
+            <ModalTitle>Add Appointment</ModalTitle>
+            <CloseButton/>
+        </ModalHeader>
+        <ModalBody>
+            <AddAppointment></AddAppointment>
+        </ModalBody>
+    </ModalContent>
+</Modal>
+
+<Modal @ref="modalRefHourPreference">
+    <ModalContent Centered>
+        <ModalHeader>
+            <ModalTitle>Add Hour Preference</ModalTitle>
+            <CloseButton/>
+        </ModalHeader>
+        <ModalBody>
+            <AddHourPreference></AddHourPreference>
+        </ModalBody>
+    </ModalContent>
+</Modal>
+
+<Modal @ref="modalRefEditHourPreference">
+    <ModalContent Centered>
+        <ModalHeader>
+            <ModalTitle>Edit Hour Preference</ModalTitle>
+            <CloseButton/>
+        </ModalHeader>
+        <ModalBody>
+            <EditHourPreference HourPreferenceId="@selectedHourPreferenceId"></EditHourPreference>
+        </ModalBody>
+    </ModalContent>
+</Modal>
+
+<div class="d-flex">
+    <AuthorizeView Roles="Planner">
+        <button class="btn btn-primary me-2" @onclick="() => ShowAppointmentModal()">Add Appointment</button>
+    </AuthorizeView>
+
+    <button class="btn btn-primary me-2" @onclick="() => ShowRequestModal()">Add Hour Preference</button>
+
+    <a href="/">
+        <button class="btn btn-primary">Back home</button>
+    </a>
+</div>
+
+@if (HourPreferences == null)
+{
+    <h3>Hour Preferences are loading</h3>
+}
+else
+{
+    <table class="table mt-3">
+        <thead>
+        <tr>
+            <th>Employee</th>
+            <th>Week number</th>
+            <th>Amount of Hours</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var hourPreference in HourPreferences)
+        {
+            <tr>
+                <td>@hourPreference.EmployeeName</td>
+                <td>@hourPreference.WeekNumber</td>
+                <td>@hourPreference.AmountOfHours</td>
+                <td>@hourPreference.HourPreferenceStatus</td>
+                <td>
+                    <button class="btn btn-primary" @onclick="() => EditHourPreference(hourPreference.HourPreferenceId)">Edit</button>
+                    <button class="btn btn-danger" @onclick="() => DeleteHourPreference(hourPreference.HourPreferenceId)">Delete</button>
+                    <AuthorizeView Roles="Planner">
+                        <button class="btn btn-success" @onclick="() => MarkRequestAsAccepted(hourPreference.HourPreferenceId)">Mark as Accepted</button>
+                        <button class="btn btn-warning" @onclick="() => MarkRequestAsDeclined(hourPreference.HourPreferenceId)">Mark as Declined</button>
+                    </AuthorizeView>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code
+{
+    private IEnumerable<HourPreference> HourPreferences { get; set; }
+    private Employee Employee { get; set; }
+    private int selectedHourPreferenceId;
+
+    private Modal modalRefAppointment;
+    private Modal modalRefHourPreference;
+    private Modal modalRefEditHourPreference;
+
+    protected override async Task OnInitializedAsync()
+    {
+        HourPreferences = await HourPreferenceService.GetHourPreferences();
+
+        foreach (var hourPreference in HourPreferences)
+        {
+            hourPreference.EmployeeName = await GetEmployeeName(hourPreference.EmployeeId);
+        }
+    }
+
+    private void EditHourPreference(int hourPreferenceId)
+    {
+        selectedHourPreferenceId = hourPreferenceId;
+        ShowEditRequestModal();
+    }
+
+    private async void DeleteHourPreference(int hourPreferenceId)
+    {
+        await HourPreferenceService.DeleteHourPreference(hourPreferenceId);
+        await JsRuntime.InvokeVoidAsync("location.reload");
+    }
+
+    private async void MarkRequestAsAccepted(int hourPreferenceId)
+    {
+        await HourPreferenceService.MarkAsAccepted(hourPreferenceId);
+        await JsRuntime.InvokeVoidAsync("location.reload");
+    }
+
+    private async void MarkRequestAsDeclined(int hourPreferenceId)
+    {
+        await HourPreferenceService.MarkAsDeclined(hourPreferenceId);
+        await JsRuntime.InvokeVoidAsync("location.reload");
+    }
+
+    private async Task<string> GetEmployeeName(int employeeId)
+    {
+        Employee = await EmployeeService.GetEmployeeById(employeeId);
+        return Employee.Name;
+    }
+
+    private Task ShowAppointmentModal()
+    {
+        return modalRefAppointment.Show();
+    }
+
+    private Task ShowRequestModal()
+    {
+        return modalRefHourPreference.Show();
+    }
+
+    private Task ShowEditRequestModal()
+    {
+        return modalRefEditHourPreference.Show();
+    }
+}

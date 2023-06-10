@@ -9,6 +9,7 @@
 @inject NavigationManager NavigationManager
 @inject DayScheduleService DayScheduleService
 @inject EmployeeService EmployeeService
+@inject HttpClient HttpClient
 
 
 <EditForm Model="Appointment" OnValidSubmit="HandleValidSubmit" OnInitialized="Initialize">
@@ -77,7 +78,7 @@
 
     private async Task AddAppointmentToApi()
     {
-        var httpClient = new HttpClient();
+        var httpClient = HttpClient;
 
         var dayScheduleId = await GetDayScheduleIdByDate(Appointment.StartDateTime);
         
@@ -93,7 +94,7 @@
             EmployeeId = Appointment.EmployeeId
         };
         
-        var response = await httpClient.PostAsJsonAsync("http://localhost:5175/api/appointment", addAppointment);
+        var response = await httpClient.PostAsJsonAsync("/api/appointment", addAppointment);
         response.EnsureSuccessStatusCode();
         NavigationManager.NavigateTo("/weekschedule");
     }

@@ -10,4 +10,6 @@ public class HourPreference
     public HourPreferenceStatus HourPreferenceStatus { get; set; }
     
     public int EmployeeId { get; set; }
+    
+    public string? EmployeeName { get; set; }
 }

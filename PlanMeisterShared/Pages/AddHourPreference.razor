@@ -1,0 +1,74 @@
+@page "/AddHourPreference"
+@using System.Text.Json
+@using System.Globalization
+@using System.Net.Http.Json
+@using PlanMeisterShared
+@using PlanMeisterShared.Enum
+@using PlanMeisterShared.Models
+@using PlanMeisterShared.Service
+@inject NavigationManager NavigationManager
+@inject EmployeeService EmployeeService
+@inject IJSRuntime JSRuntime
+@inject HttpClient HttpClient
+
+
+<EditForm Model="HourPreference" OnValidSubmit="HandleValidSubmit" OnInitialized="Initialize">
+    <div class="form-group">
+        <label for="weekNumber">Week number</label>
+        <input id="weekNumber" class="form-control" type="number" @bind="@HourPreference.WeekNumber" required/>
+        <ValidationMessage For="@(() => HourPreference.WeekNumber)"/>
+    </div>
+    
+    <div class="form-group">
+        <label for="AmountOfHours">Amount of Hours</label>
+        <input id="AmountOfHours" class="form-control" type="number" @bind="@HourPreference.AmountOfHours" required/>
+        <ValidationMessage For="@(() => HourPreference.AmountOfHours)"/>
+    </div>
+    
+    <div class="form-group">
+        <label for="employee">Employee</label>
+        <select id="employee" class="form-control" @bind="@HourPreference.EmployeeId" required>
+            <option>Maak uw keuze</option>
+            @foreach (var employee in Employees)
+            {
+                <option value="@employee.EmployeeId">@employee.Name</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Hour Preference</button>
+</EditForm>
+
+@code
+{
+    private HourPreference HourPreference = new HourPreference();
+
+    private IEnumerable<Employee> Employees { get; set; } = new List<Employee>();
+    
+    private async Task AddHourPreferenceToApi()
+    {
+        var httpClient = HttpClient;
+
+        var addHourPreference = new HourPreference()
+        {
+            WeekNumber = HourPreference.WeekNumber,
+            AmountOfHours = HourPreference.AmountOfHours,
+            HourPreferenceStatus = HourPreferenceStatus.Processing,
+            EmployeeId = HourPreference.EmployeeId
+        };
+        
+        var response = await httpClient.PostAsJsonAsync("/api/HourPreference", addHourPreference);
+        response.EnsureSuccessStatusCode();
+        
+        await JSRuntime.InvokeVoidAsync("location.reload");
+    }
+    
+    private async void HandleValidSubmit()
+    {
+        await AddHourPreferenceToApi();
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        Employees = await EmployeeService.GetEmployees();
+    }
+}

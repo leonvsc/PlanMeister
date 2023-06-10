@@ -11,6 +11,7 @@
 @inject EmployeeService EmployeeService
 @inject AppointmentService AppointmentService
 @inject IJSRuntime JsRuntime
+@inject HttpClient HttpClient
 
 <EditForm Model="Appointment" OnValidSubmit="HandleValidSubmit">
     <div class="form-group">
@@ -83,7 +84,7 @@
 
     private async Task AddAppointmentToApi()
     {
-        var httpClient = new HttpClient();
+        var httpClient = HttpClient;
 
         var dayScheduleId = await GetDayScheduleIdByDate(Appointment.StartDateTime);
         
@@ -100,7 +101,7 @@
             EmployeeId = Appointment.EmployeeId
         };
         
-        var response = await httpClient.PutAsJsonAsync($"http://localhost:5175/api/Appointment/{AppointmentId}", addAppointment);
+        var response = await httpClient.PutAsJsonAsync($"api/Appointment/{AppointmentId}", addAppointment);
         response.EnsureSuccessStatusCode();
 
         await JsRuntime.InvokeVoidAsync("location.reload");
