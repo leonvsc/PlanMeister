@@ -75,4 +75,29 @@ public class AppointmentService
         await _httpClient.DeleteAsync($"api/Appointment/{appointmentId}");
     }
 
+    public async Task<IEnumerable<Appointment>> GetAppointmentsByEmployee(int employeeId)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync($"/api/Appointment/ReadByEmployee/{employeeId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                {
+                    return Enumerable.Empty<Appointment>();
+                }
+                return await response.Content.ReadFromJsonAsync<IEnumerable<Appointment>>();
+            }
+            else
+            {
+                var message = await response.Content.ReadAsStringAsync();
+                throw new Exception(message);
+            }
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
 }

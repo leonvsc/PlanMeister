@@ -27,6 +27,11 @@ public class AppointmentService : IAppointmentService
         return await _appointmentRepository.GetAppointmentsByDay(dayScheduleId);
     }
 
+    public async Task<IEnumerable<Appointment>> GetAppointmentsByEmployee(int employeeId)
+    {
+        return await _appointmentRepository.GetAppointmentsByEmployee(employeeId);
+    }
+
     public async Task AddAppointment(Appointment appointment)
     {
         await _appointmentRepository.AddAppointment(appointment);

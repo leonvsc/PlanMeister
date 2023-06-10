@@ -48,6 +48,18 @@ namespace PlanMeisterApi.Controllers
 
             return Ok(appointments);
         }
+        
+        [HttpGet("ReadByEmployee/{employeeId}")]
+        public async Task<ActionResult<IEnumerable<Appointment>>> ReadByEmployee(int employeeId)
+        {
+            var appointments = await _appointmentService.GetAppointmentsByEmployee(employeeId);
+            if (appointments == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(appointments);
+        }
 
         [HttpPost]
         public async Task<ActionResult<Appointment>> PostAppointment(Appointment appointment)

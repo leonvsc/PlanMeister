@@ -40,13 +40,13 @@ namespace PlanMeisterApi.Controllers
         [HttpGet("ReadByEmployee/{employeeId}")]
         public async Task<ActionResult<IEnumerable<HourPreference>>> ReadByEmployee(int employeeId)
         {
-            var requests = await _hourPreferenceService.GetHourPreferencesByEmployee(employeeId);
-            if (requests == null)
+            var hourPreferences = await _hourPreferenceService.GetHourPreferencesByEmployee(employeeId);
+            if (hourPreferences == null)
             {
                 return NotFound();
             }
 
-            return Ok(requests);
+            return Ok(hourPreferences);
         }
 
         [HttpPost]
