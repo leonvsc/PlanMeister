@@ -1,3 +1,4 @@
+using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
 using PlanMeisterApi.Models;
 using PlanMeisterApi.Repositories;
@@ -5,11 +6,11 @@ using PlanMeisterApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-DotNetEnv.Env.Load();
+Env.Load();
 
 // Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddDbContext<PlanMeisterDbContext>((optionsBuilder) =>
+builder.Services.AddDbContext<PlanMeisterDbContext>(optionsBuilder =>
 {
     var connectionString = Environment.GetEnvironmentVariable("DB_Connection");
     optionsBuilder.UseSqlServer(connectionString);

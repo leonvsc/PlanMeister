@@ -11,7 +11,7 @@ public class EmployeeService : IEmployeeService
     {
         _employeeRepository = employeeRepository;
     }
-    
+
     public async Task<Employee> GetEmployeeById(int employeeId)
     {
         return await _employeeRepository.GetEmployeeById(employeeId);
@@ -29,10 +29,7 @@ public class EmployeeService : IEmployeeService
 
     public async Task UpdateEmployee(Employee employee)
     {
-        if (!await _employeeRepository.EmployeeExists(employee.EmployeeId))
-        {
-            throw new Exception("Employee not found.");
-        }
+        if (!await _employeeRepository.EmployeeExists(employee.EmployeeId)) throw new Exception("Employee not found.");
         await _employeeRepository.UpdateEmployee(employee);
     }
 
@@ -40,10 +37,9 @@ public class EmployeeService : IEmployeeService
     {
         await _employeeRepository.DeleteEmployee(employeeId);
     }
-    
+
     public async Task<bool> EmployeeExists(int employeeId)
     {
         return await _employeeRepository.EmployeeExists(employeeId);
     }
-
 }

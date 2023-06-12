@@ -11,7 +11,7 @@ public class DayScheduleService : IDayScheduleService
     {
         _dayScheduleRepository = dayScheduleRepository;
     }
-    
+
     public async Task<DaySchedule> GetDayScheduleById(int dayId)
     {
         return await _dayScheduleRepository.GetDayScheduleById(dayId);
@@ -40,9 +40,7 @@ public class DayScheduleService : IDayScheduleService
     public async Task UpdateDaySchedule(DaySchedule daySchedule)
     {
         if (!await _dayScheduleRepository.DayScheduleExists(daySchedule.DayScheduleId))
-        {
             throw new Exception("Day not found.");
-        }
         await _dayScheduleRepository.UpdateDaySchedule(daySchedule);
     }
 
@@ -50,10 +48,9 @@ public class DayScheduleService : IDayScheduleService
     {
         await _dayScheduleRepository.DeleteDaySchedule(dayId);
     }
-    
+
     public async Task<bool> DayScheduleExists(int dayId)
     {
         return await _dayScheduleRepository.DayScheduleExists(dayId);
     }
-
 }

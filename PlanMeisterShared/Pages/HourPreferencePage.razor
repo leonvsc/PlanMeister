@@ -1,7 +1,6 @@
 @page "/hourpreference"
 @using PlanMeisterShared.Models
 @using PlanMeisterShared.Service
-@using Microsoft.AspNetCore.Authorization
 @inject HourPreferenceService HourPreferenceService
 @inject EmployeeService EmployeeService
 @inject IJSRuntime JsRuntime
@@ -163,7 +162,7 @@ else
         var employee = await EmployeeService.GetEmployeeById(employeeId);
         return employee.Name;
     }
-    
+
     private async Task FilterRequests()
     {
         if (selectedEmployeeId != 0)

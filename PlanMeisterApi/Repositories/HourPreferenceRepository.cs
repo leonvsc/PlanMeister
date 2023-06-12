@@ -11,7 +11,7 @@ public class HourPreferenceRepository : IHourPreferenceRepository
     {
         _dbContext = planMeisterDbContext;
     }
-    
+
     public async Task<HourPreference> GetHourPreferenceById(int hourPreferenceId)
     {
         return await _dbContext.HourPreferences.FindAsync(hourPreferenceId);
@@ -21,7 +21,7 @@ public class HourPreferenceRepository : IHourPreferenceRepository
     {
         return await _dbContext.HourPreferences.ToListAsync();
     }
-    
+
     public async Task<IEnumerable<HourPreference>> GetHourPreferencesByEmployee(int employeeId)
     {
         return await _dbContext.HourPreferences

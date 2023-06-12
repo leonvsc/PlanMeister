@@ -79,7 +79,9 @@ else
                         <td>@appointment.StartDateTime.ToString("yyyy-MM-dd HH:mm")</td>
                         <td>@appointment.EndDateTime.ToString("yyyy-MM-dd HH:mm")</td>
                         <td>@FormatDuration(appointment.EndDateTime - appointment.StartDateTime)</td>
-                        <td><a href="/AppointmentDetails?appointmentid=@appointment.AppointmentId">Show Details</a></td>
+                        <td>
+                            <a href="/AppointmentDetails?appointmentid=@appointment.AppointmentId">Show Details</a>
+                        </td>
                         <td>
                             <button class="btn btn-primary" @onclick="() => EditAppointment(appointment.AppointmentId)">Edit</button>
                         </td>
@@ -89,7 +91,6 @@ else
             </table>
         </div>
     }
-
 }
 
 @code
@@ -99,7 +100,7 @@ else
     private int selectedAppointmentId;
     private int selectedEmployeeId;
     private bool isFiltered;
-    
+
     private Modal modalRefEditAppointment;
 
     protected override async Task OnInitializedAsync()
@@ -107,35 +108,35 @@ else
         Appointments = await AppointmentService.GetAppointments();
         Employees = await EmployeeService.GetEmployees();
 
-        foreach ( var appointment in Appointments)
+        foreach (var appointment in Appointments)
         {
             appointment.EmployeeName = await GetEmployeeName(appointment.EmployeeId);
         }
     }
-    
+
     private async Task<string> GetEmployeeName(int employeeId)
     {
         var employee = await EmployeeService.GetEmployeeById(employeeId);
         return employee.Name;
     }
-    
+
     private string FormatDuration(TimeSpan duration)
     {
-        var formattedDuration = $"{(int)duration.TotalHours} hours {(int)duration.Minutes} minutes";
+        var formattedDuration = $"{(int)duration.TotalHours} hours {duration.Minutes} minutes";
         return formattedDuration;
     }
-    
+
     private void EditAppointment(int appointmentId)
     {
         selectedAppointmentId = appointmentId;
         ShowModalEditAppointment();
     }
-    
+
     private void ShowModalEditAppointment()
     {
         modalRefEditAppointment.Show();
     }
-    
+
     private async Task FilterRequests()
     {
         if (selectedEmployeeId != 0)

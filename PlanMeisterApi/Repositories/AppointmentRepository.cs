@@ -11,7 +11,7 @@ public class AppointmentRepository : IAppointmentRepository
     {
         _dbContext = dbContext;
     }
-    
+
     public async Task<Appointment> GetAppointmentById(int appointmentId)
     {
         return await _dbContext.Appointments.FindAsync(appointmentId);
@@ -21,14 +21,14 @@ public class AppointmentRepository : IAppointmentRepository
     {
         return await _dbContext.Appointments.ToListAsync();
     }
-    
+
     public async Task<IEnumerable<Appointment>> GetAppointmentsByDay(int dayScheduleId)
     {
         return await _dbContext.Appointments
             .Where(appointment => appointment.DayScheduleId == dayScheduleId)
             .ToListAsync();
     }
-    
+
     public async Task<IEnumerable<Appointment>> GetAppointmentsByEmployee(int employeeId)
     {
         return await _dbContext.Appointments
@@ -54,10 +54,9 @@ public class AppointmentRepository : IAppointmentRepository
         _dbContext.Appointments.Remove(appointment);
         await _dbContext.SaveChangesAsync();
     }
-    
+
     public async Task<bool> AppointmentExists(int appointmentId)
     {
         return await _dbContext.Appointments.AnyAsync(a => a.AppointmentId == appointmentId);
     }
-
 }

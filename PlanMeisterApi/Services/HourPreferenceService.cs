@@ -11,7 +11,7 @@ public class HourPreferenceService : IHourPreferenceService
     {
         _hourPreferenceRepository = hourPreferenceRepository;
     }
-    
+
     public async Task<HourPreference> GetHourPreferenceById(int hourPreferenceId)
     {
         return await _hourPreferenceRepository.GetHourPreferenceById(hourPreferenceId);
@@ -35,9 +35,7 @@ public class HourPreferenceService : IHourPreferenceService
     public async Task UpdateHourPreference(HourPreference hourPreference)
     {
         if (!await _hourPreferenceRepository.HourPreferenceExists(hourPreference.HourPreferenceId))
-        {
             throw new Exception("Hour preference not found.");
-        }
         await _hourPreferenceRepository.UpdateHourPreference(hourPreference);
     }
 

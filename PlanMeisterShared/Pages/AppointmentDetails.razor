@@ -1,7 +1,7 @@
 @page "/appointmentdetails"
-@using System.Web
 @using PlanMeisterShared.Models
 @using PlanMeisterShared.Service
+@using System.Web
 @inject NavigationManager NavigationManager
 @inject AppointmentService AppointmentService
 @inject EmployeeService EmployeeService
@@ -9,19 +9,36 @@
 
 <PageTitle>Appointment details</PageTitle>
 
+<div class="d-flex">
+    <a href="/weekschedule">
+        <button class="btn btn-primary me-3">Back to weekschedule</button>
+    </a>
+    <a href="/">
+        <button class="btn btn-primary">Back home</button>
+    </a>
+</div>
+
 @if (Appointment != null)
 {
     <div class="container">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">@Appointment.Title</h5>
-          <p class="card-text">@Appointment.Description</p>
-          <p class="card-text"><strong>Employee:</strong> @Employee.Name</p>
-          <p class="card-text"><strong>Start:</strong> @Appointment.StartDateTime.ToString("dd-MM-yyyy HH:mm")</p>
-          <p class="card-text"><strong>End:</strong> @Appointment.EndDateTime.ToString("dd-MM-yyyy HH:mm")</p>
-          <p class="card-text"><strong>Type:</strong> @Appointment.Type</p>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Appointment.Title</h5>
+                <p class="card-text">@Appointment.Description</p>
+                <p class="card-text">
+                    <strong>Employee:</strong> @Employee.Name
+                </p>
+                <p class="card-text">
+                    <strong>Start:</strong> @Appointment.StartDateTime.ToString("dd-MM-yyyy HH:mm")
+                </p>
+                <p class="card-text">
+                    <strong>End:</strong> @Appointment.EndDateTime.ToString("dd-MM-yyyy HH:mm")
+                </p>
+                <p class="card-text">
+                    <strong>Type:</strong> @Appointment.Type
+                </p>
+            </div>
         </div>
-      </div>
     </div>
 }
 else

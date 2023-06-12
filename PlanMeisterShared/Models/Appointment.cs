@@ -17,6 +17,6 @@ public class Appointment
 
     public int EmployeeId { get; set; }
     public Employee Employee { get; set; }
-    
+
     public string? EmployeeName { get; set; }
 }

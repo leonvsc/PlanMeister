@@ -37,7 +37,7 @@ public class AppointmentControllerTests
         // Verify the interaction with the appointment service
         mockAppointmentService.Verify(service => service.AddAppointment(appointmentData), Times.Once);
     }
-    
+
     [Fact]
     public async Task GetAppointments_ReturnsOkResultWithData()
     {
@@ -46,9 +46,9 @@ public class AppointmentControllerTests
         var appointmentList = new List<Appointment>
         {
             // Create a sample list of appointments for testing
-            new Appointment { AppointmentId = 1, Title = "Appointment 1" },
-            new Appointment { AppointmentId = 2, Title = "Appointment 2" },
-            new Appointment { AppointmentId = 3, Title = "Appointment 3" }
+            new() { AppointmentId = 1, Title = "Appointment 1" },
+            new() { AppointmentId = 2, Title = "Appointment 2" },
+            new() { AppointmentId = 3, Title = "Appointment 3" }
         };
         mockAppointmentService.Setup(service => service.GetAllAppointments()).ReturnsAsync(appointmentList);
         var appointmentController = new AppointmentController(mockAppointmentService.Object);
@@ -64,7 +64,7 @@ public class AppointmentControllerTests
         // Verify the interaction with the appointment service
         mockAppointmentService.Verify(service => service.GetAllAppointments(), Times.Once);
     }
-    
+
     [Fact]
     public async Task PutAppointment_ValidData_ReturnsNoContentResult()
     {
@@ -74,7 +74,7 @@ public class AppointmentControllerTests
         {
             AppointmentId = 1,
             Title = "Updated Appointment",
-            Description = "Updated description",
+            Description = "Updated description"
             // Provide other updated appointment data for testing
         };
         var appointmentController = new AppointmentController(mockAppointmentService.Object);
@@ -88,46 +88,48 @@ public class AppointmentControllerTests
         // Verify the interaction with the appointment service
         mockAppointmentService.Verify(service => service.UpdateAppointment(appointmentData), Times.Once);
     }
-    
+
     [Fact]
-        public async Task DeleteAppointment_ExistingAppointment_ReturnsNoContentResult()
-        {
-            // Arrange
-            var mockAppointmentService = new Mock<IAppointmentService>();
-            var existingAppointmentId = 1; // Provide an existing appointment ID
-            var existingAppointment = new Appointment { AppointmentId = existingAppointmentId };
-            mockAppointmentService.Setup(service => service.GetAppointmentById(existingAppointmentId)).ReturnsAsync(existingAppointment);
-            var appointmentController = new AppointmentController(mockAppointmentService.Object);
+    public async Task DeleteAppointment_ExistingAppointment_ReturnsNoContentResult()
+    {
+        // Arrange
+        var mockAppointmentService = new Mock<IAppointmentService>();
+        var existingAppointmentId = 1; // Provide an existing appointment ID
+        var existingAppointment = new Appointment { AppointmentId = existingAppointmentId };
+        mockAppointmentService.Setup(service => service.GetAppointmentById(existingAppointmentId))
+            .ReturnsAsync(existingAppointment);
+        var appointmentController = new AppointmentController(mockAppointmentService.Object);
 
-            // Act
-            var result = await appointmentController.DeleteAppointment(existingAppointmentId);
+        // Act
+        var result = await appointmentController.DeleteAppointment(existingAppointmentId);
 
-            // Assert
-            var noContentResult = Assert.IsType<NoContentResult>(result);
+        // Assert
+        var noContentResult = Assert.IsType<NoContentResult>(result);
 
-            // Verify the interaction with the appointment service
-            mockAppointmentService.Verify(service => service.GetAppointmentById(existingAppointmentId), Times.Once);
-            mockAppointmentService.Verify(service => service.DeleteAppointment(existingAppointmentId), Times.Once);
-        }
+        // Verify the interaction with the appointment service
+        mockAppointmentService.Verify(service => service.GetAppointmentById(existingAppointmentId), Times.Once);
+        mockAppointmentService.Verify(service => service.DeleteAppointment(existingAppointmentId), Times.Once);
+    }
 
-        [Fact]
-        public async Task DeleteAppointment_NonExistingAppointment_ReturnsNotFoundResult()
-        {
-            // Arrange
-            var mockAppointmentService = new Mock<IAppointmentService>();
-            var nonExistingAppointmentId = 1; // Provide a non-existing appointment ID
-            Appointment nullAppointment = null;
-            mockAppointmentService.Setup(service => service.GetAppointmentById(nonExistingAppointmentId)).ReturnsAsync(nullAppointment);
-            var appointmentController = new AppointmentController(mockAppointmentService.Object);
+    [Fact]
+    public async Task DeleteAppointment_NonExistingAppointment_ReturnsNotFoundResult()
+    {
+        // Arrange
+        var mockAppointmentService = new Mock<IAppointmentService>();
+        var nonExistingAppointmentId = 1; // Provide a non-existing appointment ID
+        Appointment nullAppointment = null;
+        mockAppointmentService.Setup(service => service.GetAppointmentById(nonExistingAppointmentId))
+            .ReturnsAsync(nullAppointment);
+        var appointmentController = new AppointmentController(mockAppointmentService.Object);
 
-            // Act
-            var result = await appointmentController.DeleteAppointment(nonExistingAppointmentId);
+        // Act
+        var result = await appointmentController.DeleteAppointment(nonExistingAppointmentId);
 
-            // Assert
-            var notFoundResult = Assert.IsType<NotFoundResult>(result);
+        // Assert
+        var notFoundResult = Assert.IsType<NotFoundResult>(result);
 
-            // Verify the interaction with the appointment service
-            mockAppointmentService.Verify(service => service.GetAppointmentById(nonExistingAppointmentId), Times.Once);
-            mockAppointmentService.Verify(service => service.DeleteAppointment(nonExistingAppointmentId), Times.Never);
-        }
+        // Verify the interaction with the appointment service
+        mockAppointmentService.Verify(service => service.GetAppointmentById(nonExistingAppointmentId), Times.Once);
+        mockAppointmentService.Verify(service => service.DeleteAppointment(nonExistingAppointmentId), Times.Never);
+    }
 }

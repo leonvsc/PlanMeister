@@ -6,7 +6,7 @@ namespace PlanMeisterApi.Repositories;
 public class RequestRepository : IRequestRepository
 {
     private readonly PlanMeisterDbContext _dbContext;
-    
+
     public RequestRepository(PlanMeisterDbContext dbContext)
     {
         _dbContext = dbContext;
@@ -21,7 +21,7 @@ public class RequestRepository : IRequestRepository
     {
         return await _dbContext.Requests.ToListAsync();
     }
-    
+
     public async Task<IEnumerable<Request>> GetRequestsByEmployee(int employeeId)
     {
         return await _dbContext.Requests
@@ -52,5 +52,4 @@ public class RequestRepository : IRequestRepository
     {
         return await _dbContext.Requests.AnyAsync(r => r.RequestId == requestId);
     }
-
 }

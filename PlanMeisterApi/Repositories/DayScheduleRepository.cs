@@ -11,7 +11,7 @@ public class DayScheduleRepository : IDayScheduleRepository
     {
         _dbContext = dbContext;
     }
-    
+
     public async Task<DaySchedule> GetDayScheduleById(int dayScheduleId)
     {
         return await _dbContext.DaySchedules.FindAsync(dayScheduleId);
@@ -54,7 +54,7 @@ public class DayScheduleRepository : IDayScheduleRepository
         _dbContext.DaySchedules.Remove(daySchedule);
         await _dbContext.SaveChangesAsync();
     }
-    
+
     public async Task<bool> DayScheduleExists(int dayId)
     {
         return await _dbContext.DaySchedules.AnyAsync(d => d.DayScheduleId == dayId);

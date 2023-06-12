@@ -6,7 +6,7 @@ namespace PlanMeisterApi.Repositories;
 public class WeekScheduleRepository : IWeekScheduleRepository
 {
     private readonly PlanMeisterDbContext _dbContext;
-    
+
     public WeekScheduleRepository(PlanMeisterDbContext dbContext)
     {
         _dbContext = dbContext;

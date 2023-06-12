@@ -35,8 +35,8 @@ public class EmployeeServiceTests
         var mockEmployeeRepository = new Mock<IEmployeeRepository>();
         var employees = new List<Employee>
         {
-            new Employee { EmployeeId = 1 },
-            new Employee { EmployeeId = 2 }
+            new() { EmployeeId = 1 },
+            new() { EmployeeId = 2 }
         };
         mockEmployeeRepository.Setup(repo => repo.GetAllEmployees()).ReturnsAsync(employees);
         var employeeService = new EmployeeService(mockEmployeeRepository.Object);

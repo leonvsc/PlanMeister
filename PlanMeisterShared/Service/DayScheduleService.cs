@@ -17,14 +17,16 @@ public class DayScheduleService
     public async Task<int> GetDayScheduleIdByDate(DateTime date)
     {
         var formattedDate = date.ToString("yyyy-MM-dd");
-        var daySchedule = await _httpClient.GetFromJsonAsync<List<DaySchedule>>($"api/DaySchedule/ReadByDate/{formattedDate}");
+        var daySchedule =
+            await _httpClient.GetFromJsonAsync<List<DaySchedule>>($"api/DaySchedule/ReadByDate/{formattedDate}");
 
         if (daySchedule.Count == 0)
         {
             await CreateDaySchedule(date);
-            daySchedule = await _httpClient.GetFromJsonAsync<List<DaySchedule>>($"api/DaySchedule/ReadByDate/{formattedDate}");
+            daySchedule =
+                await _httpClient.GetFromJsonAsync<List<DaySchedule>>($"api/DaySchedule/ReadByDate/{formattedDate}");
         }
-    
+
         var dayScheduleId = daySchedule[0].DayScheduleId;
 
         return dayScheduleId;
@@ -33,18 +35,18 @@ public class DayScheduleService
     private async Task CreateDaySchedule(DateTime date)
     {
         var weekScheduleId = await GetWeekScheduleIdByDate(date);
-        
-        var addDaySchedule = new DaySchedule()
+
+        var addDaySchedule = new DaySchedule
         {
             DayOfWeek = date.DayOfWeek,
             Date = date,
-            WeekScheduleId = weekScheduleId,
+            WeekScheduleId = weekScheduleId
         };
 
         var response = await _httpClient.PostAsJsonAsync("api/DaySchedule", addDaySchedule);
         response.EnsureSuccessStatusCode();
     }
-    
+
     private async Task<int> GetWeekScheduleIdByDate(DateTime date)
     {
         return await _weekScheduleService.GetWeekScheduleIdByDate(date);

@@ -19,7 +19,7 @@ public class WeekScheduleService
         var weekOfYear = cal.GetWeekOfYear(date, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
         return weekOfYear;
     }
-    
+
     public async Task<int> GetWeekScheduleIdByDate(DateTime date)
     {
         var weekNumber = GetIso8601WeekOfYear(date.Date);
@@ -31,7 +31,8 @@ public class WeekScheduleService
         {
             await CreateWeekSchedule(weekNumber);
             weekSchedule =
-                await _httpClient.GetFromJsonAsync<List<WeekSchedule>>($"api/WeekSchedule/ReadByWeekNumber/{weekNumber}");
+                await _httpClient.GetFromJsonAsync<List<WeekSchedule>>(
+                    $"api/WeekSchedule/ReadByWeekNumber/{weekNumber}");
         }
 
         var weekScheduleId = weekSchedule[0].WeekScheduleId;
@@ -41,11 +42,11 @@ public class WeekScheduleService
 
     private async Task CreateWeekSchedule(int weekNumber)
     {
-        var addWeekSchedule = new WeekSchedule()
+        var addWeekSchedule = new WeekSchedule
         {
             WeekNumber = weekNumber
         };
-        
+
         var response = await _httpClient.PostAsJsonAsync("/api/WeekSchedule", addWeekSchedule);
         response.EnsureSuccessStatusCode();
     }

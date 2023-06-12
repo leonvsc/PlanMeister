@@ -6,7 +6,7 @@ namespace PlanMeisterApi.Services;
 public class WeekScheduleService : IWeekScheduleService
 {
     private readonly IWeekScheduleRepository _weekScheduleRepository;
-    
+
     public WeekScheduleService(IWeekScheduleRepository weekScheduleRepository)
     {
         _weekScheduleRepository = weekScheduleRepository;
@@ -35,9 +35,7 @@ public class WeekScheduleService : IWeekScheduleService
     public async Task UpdateWeekSchedule(WeekSchedule weekSchedule)
     {
         if (!await _weekScheduleRepository.WeekScheduleExists(weekSchedule.WeekScheduleId))
-        {
             throw new Exception("Schedule not found.");
-        }
         await _weekScheduleRepository.UpdateWeekSchedule(weekSchedule);
     }
 

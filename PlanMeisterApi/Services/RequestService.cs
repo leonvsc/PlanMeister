@@ -6,7 +6,7 @@ namespace PlanMeisterApi.Services;
 public class RequestService : IRequestService
 {
     private readonly IRequestRepository _requestRepository;
-    
+
     public RequestService(IRequestRepository requestRepository)
     {
         _requestRepository = requestRepository;
@@ -34,10 +34,7 @@ public class RequestService : IRequestService
 
     public async Task UpdateRequest(Request request)
     {
-        if (!await _requestRepository.RequestExists(request.RequestId))
-        {
-            throw new Exception("Request not found.");
-        }
+        if (!await _requestRepository.RequestExists(request.RequestId)) throw new Exception("Request not found.");
         await _requestRepository.UpdateRequest(request);
     }
 
@@ -50,5 +47,4 @@ public class RequestService : IRequestService
     {
         return await _requestRepository.RequestExists(requestId);
     }
-
 }

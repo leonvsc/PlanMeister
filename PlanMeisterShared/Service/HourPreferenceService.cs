@@ -1,3 +1,4 @@
+using System.Net;
 using System.Net.Http.Json;
 using PlanMeisterShared.Enum;
 using PlanMeisterShared.Models;
@@ -10,35 +11,23 @@ public class HourPreferenceService
 
     public HourPreferenceService(HttpClient httpClient)
     {
-        this._httpClient = httpClient;
+        _httpClient = httpClient;
     }
-    
+
     public async Task<IEnumerable<HourPreference>> GetHourPreferences()
     {
-        try
-        {
-            var response = await _httpClient.GetAsync("/api/HourPreference");
+        var response = await _httpClient.GetAsync("/api/HourPreference");
 
-            if (response.IsSuccessStatusCode)
-            {
-                if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
-                {
-                    return Enumerable.Empty<HourPreference>();
-                }
-                return await response.Content.ReadFromJsonAsync<IEnumerable<HourPreference>>();
-            }
-            else
-            {
-                var message = await response.Content.ReadAsStringAsync();
-                throw new Exception(message);
-            }
-        }
-        catch (Exception)
+        if (response.IsSuccessStatusCode)
         {
-            throw;
+            if (response.StatusCode == HttpStatusCode.NoContent) return Enumerable.Empty<HourPreference>();
+            return await response.Content.ReadFromJsonAsync<IEnumerable<HourPreference>>();
         }
+
+        var message = await response.Content.ReadAsStringAsync();
+        throw new Exception(message);
     }
-    
+
     public async Task<HourPreference?> GetHourPreferenceById(int hourPreferenceId)
     {
         return await _httpClient.GetFromJsonAsync<HourPreference>($"/api/HourPreference/{hourPreferenceId}");
@@ -55,7 +44,7 @@ public class HourPreferenceService
 
         if (hourPreference != null)
         {
-            var addHourPreference = new HourPreference()
+            var addHourPreference = new HourPreference
             {
                 HourPreferenceId = hourPreferenceId,
                 WeekNumber = hourPreference.WeekNumber,
@@ -67,14 +56,14 @@ public class HourPreferenceService
             await _httpClient.PutAsJsonAsync($"/api/HourPreference/{hourPreferenceId}", addHourPreference);
         }
     }
-    
+
     public async Task MarkAsDeclined(int hourPreferenceId)
     {
         var hourPreference = await GetHourPreferenceById(hourPreferenceId);
 
         if (hourPreference != null)
         {
-            var addHourPreference = new HourPreference()
+            var addHourPreference = new HourPreference
             {
                 HourPreferenceId = hourPreferenceId,
                 WeekNumber = hourPreference.WeekNumber,
@@ -86,30 +75,18 @@ public class HourPreferenceService
             await _httpClient.PutAsJsonAsync($"/api/HourPreference/{hourPreferenceId}", addHourPreference);
         }
     }
-    
+
     public async Task<IEnumerable<HourPreference>> GetHourPreferencesByEmployee(int employeeId)
     {
-        try
-        {
-            var response = await _httpClient.GetAsync($"/api/HourPreference/ReadByEmployee/{employeeId}");
+        var response = await _httpClient.GetAsync($"/api/HourPreference/ReadByEmployee/{employeeId}");
 
-            if (response.IsSuccessStatusCode)
-            {
-                if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
-                {
-                    return Enumerable.Empty<HourPreference>();
-                }
-                return await response.Content.ReadFromJsonAsync<IEnumerable<HourPreference>>();
-            }
-            else
-            {
-                var message = await response.Content.ReadAsStringAsync();
-                throw new Exception(message);
-            }
-        }
-        catch (Exception)
+        if (response.IsSuccessStatusCode)
         {
-            throw;
+            if (response.StatusCode == HttpStatusCode.NoContent) return Enumerable.Empty<HourPreference>();
+            return await response.Content.ReadFromJsonAsync<IEnumerable<HourPreference>>();
         }
+
+        var message = await response.Content.ReadAsStringAsync();
+        throw new Exception(message);
     }
 }

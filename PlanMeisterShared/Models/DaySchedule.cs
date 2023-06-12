@@ -8,6 +8,6 @@ public class DaySchedule
 
     public int WeekScheduleId { get; set; }
     public WeekSchedule? WeekSchedule { get; set; }
-    
+
     public ICollection<Appointment>? Appointments { get; set; }
 }

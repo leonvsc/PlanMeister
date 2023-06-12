@@ -1,12 +1,12 @@
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using PlanMeisterWeb;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using PlanMeisterShared.Service;
 using PlanMeisterShared.Shared;
+using PlanMeisterWeb;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -19,10 +19,7 @@ builder.Services.AddOidcAuthentication(options =>
 }).AddAccountClaimsPrincipalFactory<ArrayClaimsPrincipalFactory<RemoteUserAccount>>();
 
 builder.Services
-    .AddBlazorise( options =>
-    {
-        options.Immediate = true;
-    } )
+    .AddBlazorise(options => { options.Immediate = true; })
     .AddBootstrapProviders()
     .AddFontAwesomeIcons();
 

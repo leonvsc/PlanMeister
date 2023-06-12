@@ -2,107 +2,86 @@ using Microsoft.AspNetCore.Mvc;
 using PlanMeisterApi.Models;
 using PlanMeisterApi.Services;
 
-namespace PlanMeisterApi.Controllers
+namespace PlanMeisterApi.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class HourPreferenceController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class HourPreferenceController : ControllerBase
+    private readonly IHourPreferenceService _hourPreferenceService;
+
+    public HourPreferenceController(IHourPreferenceService hourPreferenceService)
     {
-        private readonly IHourPreferenceService _hourPreferenceService;
+        _hourPreferenceService = hourPreferenceService;
+    }
 
-        public HourPreferenceController(IHourPreferenceService hourPreferenceService)
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<HourPreference>>> GetHourPreferences()
+    {
+        var hourPreferences = await _hourPreferenceService.GetAllHourPreferences();
+        if (hourPreferences == null) return NotFound();
+        return Ok(hourPreferences);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<HourPreference>> GetHourPreference(int id)
+    {
+        var hourPreference = await _hourPreferenceService.GetHourPreferenceById(id);
+        if (hourPreference == null) return NotFound();
+        return Ok(hourPreference);
+    }
+
+    [HttpGet("ReadByEmployee/{employeeId}")]
+    public async Task<ActionResult<IEnumerable<HourPreference>>> ReadByEmployee(int employeeId)
+    {
+        var hourPreferences = await _hourPreferenceService.GetHourPreferencesByEmployee(employeeId);
+        if (hourPreferences == null) return NotFound();
+
+        return Ok(hourPreferences);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<HourPreference>> PostHourPreference(HourPreference hourPreference)
+    {
+        try
         {
-            _hourPreferenceService = hourPreferenceService;
+            await _hourPreferenceService.AddHourPreference(hourPreference);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<HourPreference>>> GetHourPreferences()
+        return CreatedAtAction(nameof(GetHourPreference), new { id = hourPreference.HourPreferenceId }, hourPreference);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> PutHourPreference(int id, HourPreference hourPreference)
+    {
+        if (id != hourPreference.HourPreferenceId) return BadRequest();
+
+        try
         {
-            var hourPreferences = await _hourPreferenceService.GetAllHourPreferences();
-            if (hourPreferences == null)
-            {
+            await _hourPreferenceService.UpdateHourPreference(hourPreference);
+        }
+        catch (Exception ex)
+        {
+            if (!await _hourPreferenceService.HourPreferenceExists(id))
                 return NotFound();
-            }
-            return Ok(hourPreferences);
+            throw ex;
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<HourPreference>> GetHourPreference(int id)
-        {
-            var hourPreference = await _hourPreferenceService.GetHourPreferenceById(id);
-            if (hourPreference == null)
-            {
-                return NotFound();
-            }
-            return Ok(hourPreference);
-        }
-        
-        [HttpGet("ReadByEmployee/{employeeId}")]
-        public async Task<ActionResult<IEnumerable<HourPreference>>> ReadByEmployee(int employeeId)
-        {
-            var hourPreferences = await _hourPreferenceService.GetHourPreferencesByEmployee(employeeId);
-            if (hourPreferences == null)
-            {
-                return NotFound();
-            }
+        return NoContent();
+    }
 
-            return Ok(hourPreferences);
-        }
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteHourPreference(int id)
+    {
+        var hourPreference = await _hourPreferenceService.GetHourPreferenceById(id);
+        if (hourPreference == null) return NotFound();
 
-        [HttpPost]
-        public async Task<ActionResult<HourPreference>> PostHourPreference(HourPreference hourPreference)
-        {
-            try
-            {
-                await _hourPreferenceService.AddHourPreference(hourPreference);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+        await _hourPreferenceService.DeleteHourPreference(hourPreference.HourPreferenceId);
 
-            return CreatedAtAction(nameof(GetHourPreference), new { id = hourPreference.HourPreferenceId }, hourPreference);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutHourPreference(int id, HourPreference hourPreference)
-        {
-            if (id != hourPreference.HourPreferenceId)
-            {
-                return BadRequest();
-            }
-
-            try
-            {
-                await _hourPreferenceService.UpdateHourPreference(hourPreference);
-            }
-            catch (Exception ex)
-            {
-                if (!await _hourPreferenceService.HourPreferenceExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw ex;
-                }
-            }
-
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteHourPreference(int id)
-        {
-            var hourPreference = await _hourPreferenceService.GetHourPreferenceById(id);
-            if (hourPreference == null)
-            {
-                return NotFound();
-            }
-
-            await _hourPreferenceService.DeleteHourPreference(hourPreference.HourPreferenceId);
-
-            return NoContent();
-        }
+        return NoContent();
     }
 }

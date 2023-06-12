@@ -1,6 +1,6 @@
 @page "/employee"
-@using PlanMeisterShared.Service
 @using PlanMeisterShared.Models
+@using PlanMeisterShared.Service
 @inject EmployeeService EmployeeService
 
 <PageTitle>Employee</PageTitle>
@@ -13,8 +13,6 @@
 }
 else
 {
-
-
     <div>
 
         @foreach (var employee in Employees)
@@ -30,7 +28,7 @@ else
 {
     private IEnumerable<Employee> Employees { get; set; }
 
-    
+
     protected override async Task OnInitializedAsync()
     {
         Employees = await EmployeeService.GetEmployees();

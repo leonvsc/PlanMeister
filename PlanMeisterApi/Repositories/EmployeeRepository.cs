@@ -11,7 +11,7 @@ public class EmployeeRepository : IEmployeeRepository
     {
         _dbContext = dbContext;
     }
-    
+
     public async Task<Employee> GetEmployeeById(int employeeId)
     {
         return await _dbContext.Employees.FindAsync(employeeId);
@@ -40,10 +40,9 @@ public class EmployeeRepository : IEmployeeRepository
         _dbContext.Employees.Remove(employee);
         await _dbContext.SaveChangesAsync();
     }
-    
+
     public async Task<bool> EmployeeExists(int employeeId)
     {
         return await _dbContext.Employees.AnyAsync(e => e.EmployeeId == employeeId);
     }
-
 }

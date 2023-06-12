@@ -8,8 +8,8 @@ public class HourPreference
     public int WeekNumber { get; set; }
     public int AmountOfHours { get; set; }
     public HourPreferenceStatus HourPreferenceStatus { get; set; }
-    
+
     public int EmployeeId { get; set; }
-    
+
     public string? EmployeeName { get; set; }
 }
