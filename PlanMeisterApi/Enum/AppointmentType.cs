@@ -5,5 +5,6 @@ public enum AppointmentType
     MorningShift,
     EveningShift,
     NightShift,
-    Free
+    Free,
+    Vacation
 }
