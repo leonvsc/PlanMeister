@@ -1,14 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanMeisterApi", "PlanMeisterApi\PlanMeisterApi.csproj", "{87DB3B35-3AB2-41A4-8EBC-23DEACB24093}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33723.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlanMeisterApi", "PlanMeisterApi\PlanMeisterApi.csproj", "{87DB3B35-3AB2-41A4-8EBC-23DEACB24093}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanMeisterWeb", "PlanMeisterWeb\PlanMeisterWeb.csproj", "{21A32FD3-FE0F-4E99-B4E6-9AB47D7DBC46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlanMeisterWeb", "PlanMeisterWeb\PlanMeisterWeb.csproj", "{21A32FD3-FE0F-4E99-B4E6-9AB47D7DBC46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanMeisterMAUI", "PlanMeisterMAUI\PlanMeisterMAUI.csproj", "{53C9CD5A-0268-4ABB-B11A-4927FAF8B4D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlanMeisterMAUI", "PlanMeisterMAUI\PlanMeisterMAUI.csproj", "{53C9CD5A-0268-4ABB-B11A-4927FAF8B4D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanMeisterShared", "PlanMeisterShared\PlanMeisterShared.csproj", "{6C67BFB4-F405-4BC8-A3FB-04B839E8339E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlanMeisterShared", "PlanMeisterShared\PlanMeisterShared.csproj", "{6C67BFB4-F405-4BC8-A3FB-04B839E8339E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanMeisterTests", "PlanMeisterTests\PlanMeisterTests.csproj", "{7D4A2EAD-6580-403F-9400-9570EEC32017}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlanMeisterTests", "PlanMeisterTests\PlanMeisterTests.csproj", "{7D4A2EAD-6580-403F-9400-9570EEC32017}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,8 +29,10 @@ Global
 		{21A32FD3-FE0F-4E99-B4E6-9AB47D7DBC46}.Release|Any CPU.Build.0 = Release|Any CPU
 		{53C9CD5A-0268-4ABB-B11A-4927FAF8B4D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{53C9CD5A-0268-4ABB-B11A-4927FAF8B4D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53C9CD5A-0268-4ABB-B11A-4927FAF8B4D5}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{53C9CD5A-0268-4ABB-B11A-4927FAF8B4D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53C9CD5A-0268-4ABB-B11A-4927FAF8B4D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53C9CD5A-0268-4ABB-B11A-4927FAF8B4D5}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{6C67BFB4-F405-4BC8-A3FB-04B839E8339E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6C67BFB4-F405-4BC8-A3FB-04B839E8339E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C67BFB4-F405-4BC8-A3FB-04B839E8339E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -36,5 +41,11 @@ Global
 		{7D4A2EAD-6580-403F-9400-9570EEC32017}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D4A2EAD-6580-403F-9400-9570EEC32017}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D4A2EAD-6580-403F-9400-9570EEC32017}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0683CD9E-FD29-4D8A-9A91-480619097300}
 	EndGlobalSection
 EndGlobal

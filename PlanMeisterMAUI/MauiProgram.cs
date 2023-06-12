@@ -31,7 +31,7 @@ public static class MauiProgram
         });
 
         builder.Services.AddScoped(sp => new HttpClient
-            { BaseAddress = new Uri("https://5cb2-84-83-28-195.ngrok-free.app/") });
+            { BaseAddress = new Uri("https://69e8-84-83-28-195.ngrok-free.app/") });
         builder.Services.AddScoped<EmployeeService>();
         builder.Services.AddScoped<AppointmentService>();
         builder.Services.AddScoped<DayScheduleService>();
