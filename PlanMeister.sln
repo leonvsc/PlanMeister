@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanMeisterMAUI", "PlanMeis
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanMeisterShared", "PlanMeisterShared\PlanMeisterShared.csproj", "{6C67BFB4-F405-4BC8-A3FB-04B839E8339E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanMeisterTests", "PlanMeisterTests\PlanMeisterTests.csproj", "{7D4A2EAD-6580-403F-9400-9570EEC32017}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{6C67BFB4-F405-4BC8-A3FB-04B839E8339E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C67BFB4-F405-4BC8-A3FB-04B839E8339E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C67BFB4-F405-4BC8-A3FB-04B839E8339E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D4A2EAD-6580-403F-9400-9570EEC32017}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D4A2EAD-6580-403F-9400-9570EEC32017}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D4A2EAD-6580-403F-9400-9570EEC32017}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D4A2EAD-6580-403F-9400-9570EEC32017}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
